@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
- 
+
 void main() {
   runApp(MyApp());
 }
- 
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.red,
- 
+
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
@@ -32,26 +32,27 @@ class MyApp extends StatelessWidget {
     );
   }
 }
- 
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
- 
+
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
- 
+
   // This class is the configuration for the state. It holds the values (in this
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
- 
+
   final String title;
- 
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
- 
+
 class _MyHomePageState extends State<MyHomePage> {
+  bool widgetVisible = true;
   int _counter = 0;
   int _counterMin = 0;
   int _counterOre = 0;
@@ -59,53 +60,39 @@ class _MyHomePageState extends State<MyHomePage> {
   bool started = false;
   bool streamStarted = false;
   Stream<int> stream;
- 
+  List<Widget> list = [];
+
   void contatore() {
+    hideWidget();
     started = true;
     if (streamStarted == false) {
       stream = timedCounter(Duration(seconds: 1));
       streamStarted = true;
     }
- 
+
     stream.listen((data) => _incrementCounter());
- 
-    /* you need async for main!
-  await for (var data in stream) {
-    print('yeld: $data');
   }
-  */
-  }
- 
+
   void stop() {
     started = false;
   }
- 
+
   void reset() {
     _counter = 0;
     _counterMin = 0;
     _counterOre = 0;
+    secondi = 0;
+    minuti = 0;
+    ore = 0;
     started = false;
   }
- 
+
   void giro() {
     secondi = _counter;
     minuti = _counterMin;
     ore = _counterOre;
-    createAddWidget(ore, minuti, secondi);
   }
- 
-  void createAddWidget(int ore, int minuti, int secondi) {
-    String oreString = ore.toString();
-    String minutiString = minuti.toString();
-    String secondiString = secondi.toString();
-    Widget build(BuildContext context) {
-      List<Widget> list = [];
-      for (int i = 0; i < 100; i++)
-        list.add(Text(oreString + ":" + minutiString + ":" + secondiString));
-      return Scaffold(body: ListView(children: list));
-    }
-  }
- 
+
   Stream<int> timedCounter(Duration interval, [int maxCount]) async* {
     int i = 0;
     while (true) {
@@ -114,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
       if (i == maxCount) break;
     }
   }
- 
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -140,7 +127,19 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     });
   }
+
+  void showWidget(){
+    setState(() {
+     widgetVisible = true ; 
+    });
+  }
  
+  void hideWidget(){
+    setState(() {
+     widgetVisible = false ; 
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -149,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
- 
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -175,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
- 
+
           children: <Widget>[
             Text(
               'Tempo trascorso:',
@@ -195,13 +194,14 @@ class _MyHomePageState extends State<MyHomePage> {
             Column(
               children: <Widget>[
                 FlatButton(
+                  
                   color: Colors.lightGreen,
                   textColor: Colors.white,
                   disabledColor: Colors.grey,
                   disabledTextColor: Colors.black,
                   padding: EdgeInsets.all(8.0),
                   splashColor: Colors.blueAccent,
-                  onPressed: contatore,
+                  onPressed: contatore, 
                   child: Text(
                     "Start",
                     style: TextStyle(fontSize: 20.0),
@@ -246,9 +246,24 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),
+                Text(
+                  'Ultimo Giro:',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(ore < 10 ? '0$ore:' : '$ore:',
+                        style: Theme.of(context).textTheme.headline4),
+                    Text(minuti < 10 ? '0$minuti:' : '$minuti:',
+                        style: Theme.of(context).textTheme.headline4),
+                    Text(secondi < 10 ? '0$secondi' : '$secondi',
+                        style: Theme.of(context).textTheme.headline4),
+                  ],
+                ),
               ],
             )
- 
+
             /*
               Text(
                 'You have pushed the button this many times:',
@@ -291,10 +306,10 @@ class _MyHomePageState extends State<MyHomePage> {
         )*/
     );
   }
- 
+
   Widget buildContainer() {
     ScrollController _scrollController = ScrollController();
- 
+
     return NotificationListener<ScrollNotification>(
       onNotification: (scrollState) {
         if (scrollState is ScrollEndNotification &&
