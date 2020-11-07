@@ -95,7 +95,7 @@ contatore() --> tornare su per vedere il codice per esteso
 Codice del pulsante FlatButton
 ```bash
 Analogo al precedente con la differenza che al momento della pressione questo pulsante
-richiama la funzione stop() e che il testo del pulsante è \"Stop\"
+richiama la funzione stop() e che il testo del pulsante è "Stop"
 ```
 
 Codice della funzione stop che viene invocata subito dopo la pressione
