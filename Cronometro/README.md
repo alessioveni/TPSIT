@@ -1,6 +1,6 @@
 # TPSIT Cronometro
 
-Foobar is a Python library for dealing with word pluralization.
+TPSIT Cronometro è un'applicazione utilizzabile come cronometro, con funzione di Start,Stop,Reset e Giro.
 
 ## Installation
 
@@ -24,4 +24,3 @@ foobar.singularize('phenomena') # returns 'phenomenon'
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
-
