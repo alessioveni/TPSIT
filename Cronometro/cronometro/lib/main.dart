@@ -230,6 +230,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),
+                Column(
+                  children: <Widget>[
+                    SizedBox(height: 70),
+                  ],
+                ),
                 Text(
                   'Ultimo Giro:',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
