@@ -87,7 +87,7 @@ FlatButton(
 
 Codice della funzione contatore che viene invocata subito dopo la pressione
 ```dart
-*contatore()* --> tornare su per vedere il codice per esteso
+contatore() --> tornare su per vedere il codice per esteso
 ```
 
 ## Roadmap
