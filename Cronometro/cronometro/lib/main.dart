@@ -60,16 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
   bool started = false;
   bool streamStarted = false;
   Stream<int> stream;
-  List<Widget> list = [];
 
   void contatore() {
-    hideWidget();
     started = true;
     if (streamStarted == false) {
       stream = timedCounter(Duration(seconds: 1));
       streamStarted = true;
     }
-
     stream.listen((data) => _incrementCounter());
   }
 
@@ -128,18 +125,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void showWidget(){
-    setState(() {
-     widgetVisible = true ; 
-    });
-  }
- 
-  void hideWidget(){
-    setState(() {
-     widgetVisible = false ; 
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -194,14 +179,13 @@ class _MyHomePageState extends State<MyHomePage> {
             Column(
               children: <Widget>[
                 FlatButton(
-                  
                   color: Colors.lightGreen,
                   textColor: Colors.white,
                   disabledColor: Colors.grey,
                   disabledTextColor: Colors.black,
                   padding: EdgeInsets.all(8.0),
                   splashColor: Colors.blueAccent,
-                  onPressed: contatore, 
+                  onPressed: contatore,
                   child: Text(
                     "Start",
                     style: TextStyle(fontSize: 20.0),
@@ -263,82 +247,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             )
-
-            /*
-              Text(
-                'You have pushed the button this many times:',
-              ),
-              
-              Text(
-                _counterMinuti < 10
-                    ? '$_counterOre:0$_counterMinuti:' _counter < 10 ? '$_counter' : '0$_counter'
-                    : '$_counterOre:$_counterMinuti:'  _counter < 10 ? '$_counter' : '0$_counter',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-              */
-          ],
-        ),
-      ),
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: contatore,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),*/ // This trailing comma makes auto-formatting nicer for build methods.
-      /*floatingActionButton: Stack(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.bottomRight,
-              child: FloatingActionButton(
-                onPressed: stop,
-                tooltip: 'Stop',
-                child: Icon(Icons.ac_unit),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: FloatingActionButton(
-                onPressed: contatore,
-                tooltip: 'Increment',
-                child: Icon(Icons.access_time),
-              ),
-            ),
-          ],
-        )*/
-    );
-  }
-
-  Widget buildContainer() {
-    ScrollController _scrollController = ScrollController();
-
-    return NotificationListener<ScrollNotification>(
-      onNotification: (scrollState) {
-        if (scrollState is ScrollEndNotification &&
-            scrollState.metrics.pixels != 160) {
-          Future.delayed(const Duration(milliseconds: 100), () {}).then((s) {
-            _scrollController.animateTo(160,
-                duration: Duration(milliseconds: 500), curve: Curves.ease);
-          });
-        }
-        return false;
-      },
-      child: Container(
-        height: 160,
-        margin: EdgeInsets.only(bottom: 1),
-        child: ListView(
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          controller: _scrollController,
-          children: <Widget>[
-            Container(
-              width: 360,
-              height: 20,
-              color: Colors.red,
-            ),
-            Container(
-              width: 160,
-              height: 20,
-              color: Colors.blue,
-            ),
           ],
         ),
       ),
