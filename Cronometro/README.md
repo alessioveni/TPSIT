@@ -12,6 +12,7 @@ Il formato visualizzabile è in ore:minuti:secondi.
 In questa applicazione ho optato per l'utilizzo di 4 semplici pulsanti "FlatButton":
 >*Start*
 
+Codice del pulsante FlatButton
 ```dart
 FlatButton(
     color: Colors.lightGreen,
@@ -27,6 +28,9 @@ FlatButton(
     ),
 ),
 ```
+
+Codice della funzione contatore che viene invocata subito dopo la pressione
+```dart
 void contatore() {
     started = true;
     if (streamStarted == false) {
@@ -35,7 +39,7 @@ void contatore() {
     }
     stream.listen((data) => _incrementCounter());
 }
-
+```
 
 ## Roadmap
 
