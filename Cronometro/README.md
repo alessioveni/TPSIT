@@ -177,6 +177,8 @@ Idee per versioni future:
 - Aggiungere decorazioni
 - Aggiungere features di facilitazione come può essere che alla pressione del tasto "Start" si nascondino tutti i pulsanti tranne
   Giro & Stop, al momento della pressione sullo "Stop" si nascondano i due pulsanti visibili e rendere visibili "Start" & "Reset"
+- Aggiungere una lista scrollable di Widget dove sarà possibile la visualizzazione di tutti i giri(e quindi non solo dell'ultimo)
+  e visualizzando in verde il tempo migliore, in rosso i tempi peggiori.
 
 ## Stato del progetto
 
