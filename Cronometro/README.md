@@ -16,7 +16,7 @@ Dichiarazione Stream
 Stream<int> stream;
 ```
 
-Funzione timedCounter (funzione chiamata dalla funzione contatore per incrementare il contatore di un 1 secondo al secondo)
+Funzione timedCounter (funzione chiamata dalla funzione contatore per incrementare il contatore di un 1 secondo)
 ```dart
 Stream<int> timedCounter(Duration interval, [int maxCount]) async* {
     int i = 0;
@@ -40,7 +40,7 @@ void contatore() {
 }
 ```
 
-Funzione incrementCounter (utilizzato per l'incremento del contatore del cronometro)
+Funzione incrementCounter (utilizzata per l'incremento del contatore del cronometro)
 ```dart
 void _incrementCounter() {
     setState(() {
@@ -87,14 +87,7 @@ FlatButton(
 
 Codice della funzione contatore che viene invocata subito dopo la pressione
 ```dart
-void contatore() {
-    started = true;
-    if (streamStarted == false) {
-      stream = timedCounter(Duration(seconds: 1));
-      streamStarted = true;
-    }
-    stream.listen((data) => _incrementCounter());
-}
+*contatore()* --> visualizza sopra
 ```
 
 ## Roadmap
