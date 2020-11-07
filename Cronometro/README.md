@@ -152,27 +152,38 @@ void giro() {
 Questa funzione copia i secondi, minuti ed ore del cronometro e le assegna alle variabili adibite
 alla visualizzazione dell'ultimo Giro.
 
+## Visualizzazione
+
+Per la visualizzazione di questo cronometro ho deciso di usare il Widget "Text" come possiamo
+vedere di seguito
+```dart
+Text(_counterOre < 10 ? '0$_counterOre:' : '$_counterOre:',
+    style: Theme.of(context).textTheme.headline4),
+Text(_counterMin < 10 ? '0$_counterMin:' : '$_counterMin:',
+    style: Theme.of(context).textTheme.headline4),
+Text(_counter < 10 ? '0$_counter' : '$_counter',
+    style: Theme.of(context).textTheme.headline4),
+```
+Usiamo degli if-else per la visualizzazione per risolvere il problema dello 0 non visualizzabile prima
+del raggiungimento della decima cifra.
+Quindi per esempio se _counter(secondi) è minore di 10, aggiungi uno 0 davanti al numero, altrimento(else) 
+scrivi i secondi normalmente(significa che è già arrivato alla decima cifra).
+
 
 ## Roadmap
 
+Idee per versioni future:
+
+- Aggiungere decorazioni
+- Aggiungere features di facilitazione come può essere che alla pressione del tasto "Start" si nascondino tutti i pulsanti tranne
+  Giro & Stop, al momento della pressione sullo "Stop" si nascondano i due pulsanti visibili e rendere visibili "Start" & "Reset"
+
 ## Stato del progetto
 
-
 ```bash
-pip install foobar
+v1.0 Finished
 ```
 
-## Usage
+## Author
 
-```python
-import foobar
-
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
-```
-
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
+Veni Alessio - 5IA - ITIS C. Zuccante
