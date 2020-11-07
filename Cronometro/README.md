@@ -10,10 +10,7 @@ Il formato visualizzabile è in ore:minuti:secondi.
 ## Utilizzo
 
 In questa applicazione ho optato per l'utilizzo di 4 semplici pulsanti "FlatButton":
->Start
->Stop
->Reset
->Giro
+>Start Stop Reset e Giro
 
 ## Roadmap
 
