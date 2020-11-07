@@ -104,6 +104,36 @@ void stop() {
     started = false;
 }
 ```
+started è un valore booleano che sta ad indicare che il contatore è partito(se "true")
+e sta ad indicare che il contatore si è fermato(se "false"). 
+In questo caso è impostato a false perchè si trova nella funzione che viene invocata quando viene premuto il
+pulsante adibito allo stop del contatore.
+
+>*Reset*
+
+Codice del pulsante FlatButton
+```bash
+Analogo al precedente con la differenza che al momento della pressione questo pulsante
+richiama la funzione reset() e che il testo del pulsante è "Reset"
+```
+
+Codice della funzione reset che viene invocata subito dopo la pressione
+```dart
+ void reset() {
+    _counter = 0;
+    _counterMin = 0;
+    _counterOre = 0;
+    secondi = 0;
+    minuti = 0;
+    ore = 0;
+    started = false;
+  }
+```
+_counter, _counterMin e _counterOre stanno ad indicare i secondi, minuti ed ore riferiti all'orario del cronometro in tempo
+reale.
+secondi, minuti ed ore indicano invece quelli riferiti al tempo del Giro che vedremo a breve.
+
+
 
 ## Roadmap
 
