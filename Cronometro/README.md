@@ -133,6 +133,24 @@ _counter, _counterMin e _counterOre stanno ad indicare i secondi, minuti ed ore 
 reale.
 secondi, minuti ed ore indicano invece quelli riferiti al tempo del Giro che vedremo a breve.
 
+>*Giro*
+
+Codice del pulsante FlatButton
+```bash
+Analogo al precedente con la differenza che al momento della pressione questo pulsante
+richiama la funzione giro() e che il testo del pulsante è "Giro"
+```
+
+Codice della funzione giro che viene invocata subito dopo la pressione
+```dart
+void giro() {
+    secondi = _counter;
+    minuti = _counterMin;
+    ore = _counterOre;
+}
+```
+Questa funzione copia i secondi, minuti ed ore del cronometro e le assegna alle variabili adibite
+alla visualizzazione dell'ultimo Giro.
 
 
 ## Roadmap
