@@ -1,10 +1,24 @@
 # TPSIT Cronometro
 
+Applicazione cronometro.
+
+## Descrizione
+
 TPSIT Cronometro è un'applicazione utilizzabile come cronometro, con funzione di Start,Stop,Reset e Giro.
+Il formato visualizzabile è in ore:minuti:secondi.
 
-## Installation
+## Utilizzo
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+In questa applicazione ho optato per l'utilizzo di 4 semplici pulsanti "FlatButton":
+>Start
+>Stop
+>Reset
+>Giro
+
+## Roadmap
+
+## Stato del progetto
+
 
 ```bash
 pip install foobar
