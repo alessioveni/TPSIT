@@ -9,7 +9,63 @@ Il formato visualizzabile è in ore:minuti:secondi.
 
 ## Utilizzo
 
-In questa applicazione ho optato per l'utilizzo di 4 semplici pulsanti "FlatButton":
+In questa applicazione per il corretto funzionamento del cronometro ho deciso di utilizzare Stream con l'ausilio di 3 funzioni:
+
+Dichiarazione Stream
+```dart
+Stream<int> stream;
+```
+
+Funzione timedCounter (funzione chiamata dalla funzione contatore per incrementare il contatore di un 1 secondo al secondo)
+```dart
+Stream<int> timedCounter(Duration interval, [int maxCount]) async* {
+    int i = 0;
+    while (true) {
+      await Future.delayed(interval);
+      yield i++;
+      if (i == maxCount) break;
+    }
+}
+```
+
+Funzione contatore (funzione che chiama la funzione timedCounter per l'incrementazione)
+```dart
+void contatore() {
+    started = true;
+    if (streamStarted == false) {
+      stream = timedCounter(Duration(seconds: 1));
+      streamStarted = true;
+    }
+    stream.listen((data) => _incrementCounter());
+}
+```
+
+Funzione incrementCounter (utilizzato per l'incremento del contatore del cronometro)
+```dart
+void _incrementCounter() {
+    setState(() {
+      if (started) {
+        _counter++;
+        if (_counter >= 60) {
+          _counter = 0;
+          _counterMin++;
+        }
+        if (_counterMin >= 60) {
+          _counterMin = 0;
+          _counterOre++;
+        }
+        if (_counterOre >= 24) {
+          _counterOre = 0;
+          _counterMin = 0;
+          _counter = 0;
+        }
+      }
+    });
+}
+```
+
+
+Ho optato per l'utilizzo di 4 semplici pulsanti "FlatButton":
 >*Start*
 
 Codice del pulsante FlatButton
