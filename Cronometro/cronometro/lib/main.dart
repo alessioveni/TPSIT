@@ -177,6 +177,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             Column(
+                  children: <Widget>[
+                    SizedBox(height: 10),
+                  ],
+                ),
+            Column(
               children: <Widget>[
                 FlatButton(
                   color: Colors.lightGreen,
