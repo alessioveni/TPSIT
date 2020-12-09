@@ -25,29 +25,60 @@ ServerSocket.dart
 ServerChatroom.dart
 ```
 
-Funzione timedCounter (funzione chiamata dalla funzione contatore per incrementare il contatore di un 1 secondo)
+Inizando dal Main.dart parliamo delle parti più importanti del codice
+
+initState() dove vengono riportate tutti gli stati iniziali
 ```dart
-Stream<int> timedCounter(Duration interval, [int maxCount]) async* {
-    int i = 0;
-    while (true) {
-      await Future.delayed(interval);
-      yield i++;
-      if (i == maxCount) break;
-    }
-}
+  @override
+  void initState() {
+    utente = User("name", "");
+    server = new ServerSocket();
+    connected = false;
+    mexs = new List();
+    controllermexs = new TextEditingController();
+    controllerUser = new TextEditingController();
+    controllerIP = new TextEditingController();
+    super.initState();
+  }
 ```
 
-Funzione contatore (funzione che chiama la funzione timedCounter per l'incrementazione)
+receive() dove l'app controlla se ci sono errori nei messaggi e "pulisce" la stringa
 ```dart
-void contatore() {
-    started = true;
-    if (streamStarted == false) {
-      stream = timedCounter(Duration(seconds: 1));
-      streamStarted = true;
-    }
-    stream.listen((data) => _incrementCounter());
-}
+  void receive(data) {
+    print("Received!");
+    String istruzioni =
+        new String.fromCharCodes(data).trim();
+    int istruzioniCode = int.parse(istruzioni[0]);
+    String istruzioniData = istruzioni.substring(1);
+    connected = true;
+    switch (istruzioniCode) {
 ```
+Qua possiamo notare che nel caso "0" e "1" dello switch il messaggio viene diviso e creato e aggiunto quello che sarà 
+poi il messaggio visualizzato con due casistiche differenti
+```dart
+      case 0:
+        {
+          var listMessage = istruzioniData.split("|");
+          listMessage.forEach((message) {
+            var mex = message.split("%/");
+            if (mex.length > 2) {
+              mexs.add(
+                  new Message(mex[0], mex[1], DateTime.parse(mex[2]), mex[3]));
+            }
+          });
+
+          break;
+        }
+      case 1:
+        {
+          mexs.add(new Message("name", "", DateTime.now(), "mexs"));
+          break;
+        }
+    }
+    setState(() {});
+  }
+```
+
 
 Funzione incrementCounter (utilizzata per l'incremento del contatore del cronometro)
 ```dart

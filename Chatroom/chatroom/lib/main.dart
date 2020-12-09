@@ -46,7 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
   String ip;
   //controlla se connesso
   bool connected;
-  bool settings;
 
   @override
   void initState() {

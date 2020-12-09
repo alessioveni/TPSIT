@@ -43,6 +43,7 @@ class ChatClient { //invio messaggi e gestione server
     String istruzioni = new String.fromCharCodes(data).trim();
     int istruzioniCode = int.parse(istruzioni[0]);
     String istruzioniData = istruzioni.substring(1);
+
     switch (istruzioniCode) {
       case 1:
         {
