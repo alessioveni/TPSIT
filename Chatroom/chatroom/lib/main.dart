@@ -290,7 +290,6 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(Icons.account_circle),
             ),
             title: Text(controllerUser.text),
-            // + " | Messages: " + mexs.length.toString()
             actions: [
               IconButton(
                 color: Colors.black,
@@ -355,7 +354,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               Expanded(
                                 child: TextField(
                                   controller: controllermexs,
-                                  // cursorColor: Colors.white,
                                   style: TextStyle(color: Colors.black),
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
