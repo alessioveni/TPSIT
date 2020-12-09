@@ -5,7 +5,6 @@ List<ChatClient> clients = [];
 void main() {
   Messaggi = new List();
   ServerSocket server;
-  // InternetAddress.anyIPv4
   ServerSocket.bind(InternetAddress.anyIPv4, 8000).then((ServerSocket socket) {
     server = socket;
     print('Connection.. --> ' + server.address.address);
@@ -27,7 +26,7 @@ void removeClient(ChatClient client) {
 
 List<String> Messaggi;
 
-class ChatClient { //invio messaggi e gestione server
+class ChatClient {
   Socket _socket;
   String get address => _socket.remoteAddress.address;
   int get port => _socket.remotePort;
@@ -47,7 +46,6 @@ class ChatClient { //invio messaggi e gestione server
     switch (istruzioniCode) {
       case 1:
         {
-          //new user
           var userData = istruzioniData.split("%/");
           print("Un nuovo Utente si e' appena collegato!");
           print("\n");
@@ -55,7 +53,6 @@ class ChatClient { //invio messaggi e gestione server
             user.name = userData[0];
             user.surname = userData[1];
           } catch (e) {
-            //print("$e");
           }
           if (user.isNotNull()) {
             String msg = "";
@@ -66,7 +63,7 @@ class ChatClient { //invio messaggi e gestione server
           }
           break;
         }
-      case 2: //nuovo messaggio
+      case 2: 
         {
           print("Mex: " + istruzioniData);
 

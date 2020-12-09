@@ -1,8 +1,5 @@
 import 'package:chatroom/client/ServerSocket.dart';
 import 'package:flutter/material.dart';
-//import 'package:animated_text_kit/animated_text_kit.dart';
-
-// import 'IpAddress.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,25 +28,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //nome della chatroom
   String userName = "";
-  //classe client usate per connettersi al server
   ServerSocket server;
-  //lista che contiene i messaggi
   List<Message> mexs;
-  // controller  dell input del messaggio
-  TextEditingController controllermexs; //messaggio che invii
-  TextEditingController controllerUser; //username
-  TextEditingController controllerIP; //ip server che inserisci
-  //utente
-  User utente; //creazione utente per chattare
+  TextEditingController controllermexs;
+  TextEditingController controllerUser;
+  TextEditingController controllerIP;
+  User utente;
   String ip;
-  //controlla se connesso
   bool connected;
 
   @override
   void initState() {
-    //stato iniziale
     utente = User("name", "");
     server = new ServerSocket();
     connected = false;
@@ -61,19 +51,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void receive(data) {
-    //controlla se ci sono errori nei messaggi
+    
 
     print("Received!");
     String istruzioni =
-        new String.fromCharCodes(data).trim(); //pulisce la stringa
-    int istruzioniCode = int.parse(istruzioni[0]); //pulisce la stringa
-    String istruzioniData = istruzioni.substring(1); //pulisce la stringa
-    //print(istruzioni); //stampa
+        new String.fromCharCodes(data).trim(); 
+    int istruzioniCode = int.parse(istruzioni[0]); 
+    String istruzioniData = istruzioni.substring(1); 
     connected = true;
     switch (istruzioniCode) {
       case 0:
         {
-          //splitta e prende il messaggio
           var listMessage = istruzioniData.split("|");
           listMessage.forEach((message) {
             var mex = message.split("%/");
@@ -87,16 +75,14 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       case 1:
         {
-          //crea nuovo messaggio
           mexs.add(new Message("name", "", DateTime.now(), "mexs"));
           break;
         }
     }
-    setState(() {}); //apporta modifiche visuali all'interfaccia grafica
+    setState(() {}); 
   }
 
   void setName(data) {
-    //set dello nome
     setState(() {
       userName = data;
     });
@@ -129,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void sendMessage() {
     if (controllermexs.text != null &&
-        controllermexs.text != "") //controlla se mexs è vuoto
+        controllermexs.text != "") 
       server.send("2" +
           utente.nome +
           "%/" +
@@ -171,19 +157,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.black,
                   ),
                 ),
-
-                /*TyperAnimatedTextKit(
-                  speed: Duration(milliseconds: 200),
-                   totalRepeatCount: 2,
-                   
-                 text: ["Chatroom", "By Veni Alessio", "5IA"],
-                 textStyle: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.white60),
-                 pause: Duration(milliseconds: 500),
-                 
-                 displayFullTextOnTap: true,
-                 stopPauseOnTap: true,
-                  ),*/
-
                 Spacer(),
                 Container(
                   decoration: BoxDecoration(
@@ -269,9 +242,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     minWidth: 250,
                     onPressed: () {
                       utente =
-                          new User(controllerUser.text, " "); //crea nuovo user
-                      ip = controllerIP.text; //prende ip e assegna a var
-                      server.connect(utente, receive, ip); //connette al server
+                          new User(controllerUser.text, " "); 
+                      ip = controllerIP.text; 
+                      server.connect(utente, receive, ip); 
                     },
                     child: Text("Click to Connect!"),
                   ),
@@ -377,7 +350,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  //crea messaggio
   Widget MexMaker(int pos) {
     return Container(
       decoration: BoxDecoration(
@@ -407,7 +379,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-//classe di un messaggio contiene data ora e se madnato o ricevuto
-
-//
