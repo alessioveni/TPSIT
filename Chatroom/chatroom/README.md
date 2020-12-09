@@ -25,9 +25,11 @@ ServerSocket.dart
 ServerChatroom.dart
 ```
 
+
 Inizando dal Main.dart parliamo delle parti più importanti del codice
 
-initState() dove vengono riportate tutti gli stati iniziali
+
+- initState() dove vengono riportate tutti gli stati iniziali
 ```dart
   @override
   void initState() {
@@ -42,7 +44,7 @@ initState() dove vengono riportate tutti gli stati iniziali
   }
 ```
 
-receive() dove l'app controlla se ci sono errori nei messaggi e "pulisce" la stringa
+- receive() dove l'app controlla se ci sono errori nei messaggi e "pulisce" la stringa
 ```dart
   void receive(data) {
     print("Received!");
