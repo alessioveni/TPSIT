@@ -1,5 +1,6 @@
 import 'package:chatroom/client/ServerSocket.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 // import 'IpAddress.dart';
 
@@ -40,7 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController controllermexs; //messaggio che invii
   TextEditingController controllerUser; //username
   TextEditingController controllerIP; //ip server che inserisci
-
   //utente
   User utente; //creazione utente per chattare
   String ip;
@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 1:
         {
           //crea nuovo messaggio
-          mexs.add(new Message("name", "", DateTime.now(), "mexs"));
+          mexs.add( new Message("name", "", DateTime.now(), "mexs"));
           break;
         }
     }
@@ -109,34 +109,27 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  bool isIpNotNull() {
-    return controllerIP.text != "";
-  }
-
-  bool isIpARealIp() {
-    return controllerIP.text != "" &&
-        controllerIP.text.length >= 7 &&
-        controllerIP.text.contains(".");
-  }
-
-  bool isUserNotNull() {
-    return controllerUser.text != "";
-  }
-
-  void clearAllMessages() {
+  void cls() {
     print("All Mex Deleted!");
     setState(() {
       mexs = [];
     });
   }
 
-  /*void backToLoginPage() {
-    print("Undo");
-    setState(() {
-      server.Destroy();
-      connected = false;
-    });
-  }*/
+  bool controlIpNull() {
+    return controllerIP.text != "";
+  }
+
+  bool controlIpReal() {
+    return controllerIP.text != "" &&
+        controllerIP.text.length >= 7 &&
+        controllerIP.text.contains(".");
+  }
+
+  bool controlUserNull() {
+    return controllerUser.text != "";
+  }
+
 
   void sendMessage() {
     if (controllermexs.text != null &&
@@ -155,6 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    
     if (!connected) {
       return Scaffold(
         body: Container(
@@ -182,6 +176,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.black,
                   ),
                 ),
+                
+                  
+                  /*TyperAnimatedTextKit(
+                  speed: Duration(milliseconds: 200),
+                   totalRepeatCount: 2,
+                   
+                 text: ["Chatroom", "By Veni Alessio", "5IA"],
+                 textStyle: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.white60),
+                 pause: Duration(milliseconds: 500),
+                 
+                 displayFullTextOnTap: true,
+                 stopPauseOnTap: true,
+                  ),*/
+                
+                
                 Spacer(),
                 Container(
                   decoration: BoxDecoration(
@@ -201,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       hintText: 'Server Ip',
                       
                       suffixIcon: Visibility(
-                        visible: isIpNotNull(),
+                        visible: controlIpNull(),
                         child: IconButton(
                           color: Colors.black,
                           onPressed: () =>
@@ -210,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       prefixIcon: Visibility(
-                        visible: isIpARealIp(),
+                        visible: controlIpReal(),
                         child: IconButton(
                           color: Colors.green,  
                           icon: Icon(Icons.verified),
@@ -239,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: InputBorder.none,
                       hintText: 'Name',
                       suffixIcon: Visibility(
-                        visible: isUserNotNull(),
+                        visible: controlUserNull(),
                         child: IconButton(
                           color: Colors.black,
                           onPressed: () =>
@@ -248,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       prefixIcon: Visibility(
-                        visible: isUserNotNull(),
+                        visible: controlUserNull(),
                         child: IconButton(
                           color: Colors.green,
                           icon: Icon(Icons.verified),
@@ -261,7 +270,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 
                 Spacer(flex: 2),
                 //Visibility(
-                  //visible: isIpARealIp(),
+                  //visible: controlIpReal(),
                   Container(
                     // height: 50,
                     // width: 250,
@@ -283,6 +292,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         // setState(() {});
                       },
                       child: Text("Click to Connect!"),
+
                     ),
                   ),
               ],
@@ -308,7 +318,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.black,
                 onPressed: () => {
                   // SETTINGS,
-                  clearAllMessages()
+                  cls()
                 },
                 icon: Icon(Icons.delete),
               ),
