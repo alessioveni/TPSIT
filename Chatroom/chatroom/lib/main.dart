@@ -1,6 +1,6 @@
 import 'package:chatroom/client/ServerSocket.dart';
 import 'package:flutter/material.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+//import 'package:animated_text_kit/animated_text_kit.dart';
 
 // import 'IpAddress.dart';
 
@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
         new String.fromCharCodes(data).trim(); //pulisce la stringa
     int istruzioniCode = int.parse(istruzioni[0]); //pulisce la stringa
     String istruzioniData = istruzioni.substring(1); //pulisce la stringa
-    print(istruzioni); //stampa
+    //print(istruzioni); //stampa
     connected = true;
     switch (istruzioniCode) {
       case 0:
@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 1:
         {
           //crea nuovo messaggio
-          mexs.add( new Message("name", "", DateTime.now(), "mexs"));
+          mexs.add(new Message("name", "", DateTime.now(), "mexs"));
           break;
         }
     }
@@ -130,7 +130,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return controllerUser.text != "";
   }
 
-
   void sendMessage() {
     if (controllermexs.text != null &&
         controllermexs.text != "") //controlla se mexs è vuoto
@@ -148,7 +147,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    
     if (!connected) {
       return Scaffold(
         body: Container(
@@ -176,9 +174,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.black,
                   ),
                 ),
-                
-                  
-                  /*TyperAnimatedTextKit(
+
+                /*TyperAnimatedTextKit(
                   speed: Duration(milliseconds: 200),
                    totalRepeatCount: 2,
                    
@@ -189,8 +186,7 @@ class _MyHomePageState extends State<MyHomePage> {
                  displayFullTextOnTap: true,
                  stopPauseOnTap: true,
                   ),*/
-                
-                
+
                 Spacer(),
                 Container(
                   decoration: BoxDecoration(
@@ -208,7 +204,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Server Ip',
-                      
                       suffixIcon: Visibility(
                         visible: controlIpNull(),
                         child: IconButton(
@@ -221,14 +216,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       prefixIcon: Visibility(
                         visible: controlIpReal(),
                         child: IconButton(
-                          color: Colors.green,  
+                          color: Colors.green,
                           icon: Icon(Icons.verified),
                         ),
                       ),
                     ),
                   ),
                 ),
-                Column( //spacer
+                Column(
+                  //spacer
                   children: <Widget>[
                     SizedBox(height: 20),
                   ],
@@ -263,38 +259,26 @@ class _MyHomePageState extends State<MyHomePage> {
                           icon: Icon(Icons.verified),
                         ),
                       ),
-                      
                     ),
                   ),
                 ),
-                
                 Spacer(flex: 2),
-                //Visibility(
-                  //visible: controlIpReal(),
-                  Container(
-                    // height: 50,
-                    // width: 250,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Colors.teal[100].withOpacity(0.8),
-                        borderRadius: BorderRadius.all(Radius.circular(35))),
-                    child: FlatButton(
-                      minWidth: 250,
-                      onPressed: () {
-                        // setState(() {});
-                        utente = new User(
-                            controllerUser.text, " "); //crea nuovo user
-                        ip = controllerIP.text; //prende ip e assegna a var
-                        server.connect(
-                            utente, receive, ip); //connette al server
-                        // print("Ip:" + controllerIP.text);
-                        // print(controllerIP.text == "192");
-                        // setState(() {});
-                      },
-                      child: Text("Click to Connect!"),
-
-                    ),
+                Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.teal[100].withOpacity(0.8),
+                      borderRadius: BorderRadius.all(Radius.circular(35))),
+                  child: FlatButton(
+                    minWidth: 250,
+                    onPressed: () {
+                      utente =
+                          new User(controllerUser.text, " "); //crea nuovo user
+                      ip = controllerIP.text; //prende ip e assegna a var
+                      server.connect(utente, receive, ip); //connette al server
+                    },
+                    child: Text("Click to Connect!"),
                   ),
+                ),
               ],
             ),
           ),
@@ -305,10 +289,7 @@ class _MyHomePageState extends State<MyHomePage> {
           appBar: AppBar(
             leading: IconButton(
               color: Colors.black,
-              onPressed: () => {
-                // SETTINGS,
-                //backToLoginPage()
-              },
+              onPressed: () => {},
               icon: Icon(Icons.account_circle),
             ),
             title: Text(controllerUser.text),
@@ -316,30 +297,9 @@ class _MyHomePageState extends State<MyHomePage> {
             actions: [
               IconButton(
                 color: Colors.black,
-                onPressed: () => {
-                  // SETTINGS,
-                  cls()
-                },
+                onPressed: () => {cls()},
                 icon: Icon(Icons.delete),
               ),
-              /*Text(
-                  style: TextStyle(
-                  fontSize: 40,
-                  color: Colors.grey[300],
-                ),
-              ),*/
-
-              // + " | Messages: " + mexs.length.toString()
-              /*IconButton(
-                color: Colors.black,
-                onPressed: () => {
-                  //openSettings()
-                  // SETTINGS,
-                  //print("Settings button clicked"),
-                  //setState(() {})
-                },
-                icon: Icon(Icons.open_in_new),
-              ),*/
             ],
           ),
           body: Container(
@@ -363,7 +323,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Row(
                                 children: [
                                   Spacer(),
-                                  CreateMessaggio(index),
+                                  MexMaker(index),
                                 ],
                               ),
                             ),
@@ -374,7 +334,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  CreateMessaggio(index),
+                                  MexMaker(index),
                                   Spacer(),
                                 ],
                               ),
@@ -423,7 +383,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   //crea messaggio
-  Widget CreateMessaggio(int pos) {
+  Widget MexMaker(int pos) {
     return Container(
       decoration: BoxDecoration(
           color: Colors.teal[900].withOpacity(0.8),
@@ -443,8 +403,8 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             Text(
-              '${mexs[mexs.length - pos - 1].time}',
-              style: TextStyle(color: Colors.white60, fontSize: 10),
+              '${mexs[mexs.length - pos - 1].time}' + ' ✓✓',
+              style: TextStyle(color: Colors.white60, fontSize: 10, ),
             ),
           ],
         ),

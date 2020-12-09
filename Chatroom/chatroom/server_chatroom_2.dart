@@ -8,7 +8,7 @@ void main() {
   // InternetAddress.anyIPv4
   ServerSocket.bind(InternetAddress.anyIPv4, 8000).then((ServerSocket socket) {
     server = socket;
-    print(server.address.address);
+    print('Connection.. --> ' + server.address.address);
     server.listen((client) {
       handleConnection(client);
     });
@@ -16,6 +16,7 @@ void main() {
 }
 
 void handleConnection(Socket client) {
+  print("\n");
   print("Connected:");
   clients.add(ChatClient(client));
 }
@@ -42,18 +43,18 @@ class ChatClient { //invio messaggi e gestione server
     String istruzioni = new String.fromCharCodes(data).trim();
     int istruzioniCode = int.parse(istruzioni[0]);
     String istruzioniData = istruzioni.substring(1);
-    print(istruzioniCode);
     switch (istruzioniCode) {
       case 1:
         {
           //new user
           var userData = istruzioniData.split("%/");
-          print("new user");
+          print("Un nuovo Utente si e' appena collegato!");
+          print("\n");
           try {
             user.name = userData[0];
             user.surname = userData[1];
           } catch (e) {
-            print("$e");
+            //print("$e");
           }
           if (user.isNotNull()) {
             String msg = "";
@@ -66,7 +67,7 @@ class ChatClient { //invio messaggi e gestione server
         }
       case 2: //nuovo messaggio
         {
-          print("Message:" + istruzioniData);
+          print("Mex: " + istruzioniData);
 
           Messaggi.add(istruzioniData);
           clients.forEach((client) {
