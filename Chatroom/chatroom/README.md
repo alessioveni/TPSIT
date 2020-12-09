@@ -4,13 +4,16 @@ Applicazione Chatroom.
 
 ## Descrizione
 
-TPSIT Chatroom è un'applicazione utilizzabile come chat fra diversi utenti(min. 2).
+TPSIT Chatroom è un'applicazione utilizzabile come chat fra diversi utenti(min. 2) con un massimale non definito.
+Viene gestito come fosse un gruppo: dove possono entrare più utenti contemporaneamente per chattare!
+
 Ho implementato alcune features tra cui:
 - Cestino messaggi;
 - Controllo IP e User tramite criteri ben definiti per non effettuare connessioni accidentali;
 - Temi colorati;
 - Doppie spunte di visualizzazione;
 - Vari tasti di invio e di delete inserimento dati;
+- Ora e Nome del mittente del messaggio.
 
 ## Utilizzo
 
