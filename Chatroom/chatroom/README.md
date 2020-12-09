@@ -126,7 +126,7 @@ poi il messaggio visualizzato con due casistiche differenti
 ```
 ### Main - Widget
 
-- TextField dove inserire l'IP del Server dove bisogna connettersi
+- TextField dove inserire l'IP del Server per connettersi
 ```dart
 Container(
     decoration: BoxDecoration(
@@ -355,129 +355,206 @@ Widget MexMaker(int pos) {
 
 ### ServerSocket
 
-
-
+- Gestisce il Server Socket, lo User, la funziona che riceve il messaggio e l'indirizzo IP, tutto questo in modo asincrono
 ```dart
-```
+class ServerSocket {
+  Socket _socket;
+  List<Message> chat = [];
 
-```dart
-```
+  void connect(User _userData, Function receive, ip) async {
+    await Socket.connect(ip, 8000).then((Socket sock) {
+      this._socket = sock;
+      _socket.listen(receive,
+          onError: _errorHandler, onDone: _doneHandler, cancelOnError: false);
+    }).catchError((Object e) {
+      print("Unable to connect: $e");
+    });
 
-
-Ho optato per l'utilizzo di 4 semplici pulsanti "FlatButton":
->*Start*
-
-Codice del pulsante FlatButton
-```dart
-FlatButton(
-    color: Colors.lightGreen,
-    textColor: Colors.white,
-    disabledColor: Colors.grey,
-    disabledTextColor: Colors.black,
-    padding: EdgeInsets.all(8.0),
-    splashColor: Colors.blueAccent,
-    onPressed: contatore,
-    child: Text(
-      "Start",
-      style: TextStyle(fontSize: 20.0),
-    ),
-),
-```
-
-Codice della funzione contatore che viene invocata subito dopo la pressione
-```dart
-contatore() --> tornare su per vedere il codice per esteso
-```
-
->*Stop*
-
-Codice del pulsante FlatButton
-```bash
-Analogo al precedente con la differenza che al momento della pressione questo pulsante
-richiama la funzione stop() e che il testo del pulsante è "Stop"
-```
-
-Codice della funzione stop che viene invocata subito dopo la pressione
-```dart
-void stop() {
-    started = false;
-}
-```
-started è un valore booleano che sta ad indicare che il contatore è partito(se "true")
-e sta ad indicare che il contatore si è fermato(se "false"). 
-In questo caso è impostato a false perchè si trova nella funzione che viene invocata quando viene premuto il
-pulsante adibito allo stop del contatore.
-
->*Reset*
-
-Codice del pulsante FlatButton
-```bash
-Analogo al precedente con la differenza che al momento della pressione questo pulsante
-richiama la funzione reset() e che il testo del pulsante è "Reset"
-```
-
-Codice della funzione reset che viene invocata subito dopo la pressione
-```dart
- void reset() {
-    _counter = 0;
-    _counterMin = 0;
-    _counterOre = 0;
-    secondi = 0;
-    minuti = 0;
-    ore = 0;
-    started = false;
+    _socket.write("1" + _userData.nome.toLowerCase() + "%/" + _userData.cognome.toLowerCase());
   }
-```
-_counter, _counterMin e _counterOre stanno ad indicare i secondi, minuti ed ore riferiti all'orario del cronometro in tempo
-reale.
-secondi, minuti ed ore indicano invece quelli riferiti al tempo del Giro che vedremo a breve.
 
->*Giro*
+  void _errorHandler(error, StackTrace trace) {
+    print(error);
+  }
 
-Codice del pulsante FlatButton
-```bash
-Analogo al precedente con la differenza che al momento della pressione questo pulsante
-richiama la funzione giro() e che il testo del pulsante è "Giro"
-```
+  void Destroy() {
+    _socket.destroy();
+  }
 
-Codice della funzione giro che viene invocata subito dopo la pressione
-```dart
-void giro() {
-    secondi = _counter;
-    minuti = _counterMin;
-    ore = _counterOre;
+  void _doneHandler() {
+    _socket.destroy();
+  }
+
+  void send(data) {
+    _socket.write(data);
+  }
 }
 ```
-Questa funzione copia i secondi, minuti ed ore del cronometro e le assegna alle variabili adibite
-alla visualizzazione dell'ultimo Giro.
-
-## Visualizzazione
-
-Per la visualizzazione di questo cronometro ho deciso di usare il Widget "Text" come possiamo
-vedere di seguito
+- Costruttore del messaggio con i seguenti paramentri: Nome, Cognome(facoltativo, utilizzato nelle prossime versioni),
+data del messaggio e la parte più importante, Il messaggio
 ```dart
-Text(_counterOre < 10 ? '0$_counterOre:' : '$_counterOre:',
-    style: Theme.of(context).textTheme.headline4),
-Text(_counterMin < 10 ? '0$_counterMin:' : '$_counterMin:',
-    style: Theme.of(context).textTheme.headline4),
-Text(_counter < 10 ? '0$_counter' : '$_counter',
-    style: Theme.of(context).textTheme.headline4),
-```
-Usiamo degli if-else per la visualizzazione per risolvere il problema dello 0 non visualizzabile prima
-del raggiungimento della decima cifra.
-Quindi per esempio se _counter(secondi) è minore di 10, aggiungi uno 0 davanti al numero, altrimento(else) 
-scrivi i secondi normalmente(significa che è già arrivato alla decima cifra).
+class Message { 
+  String _name;
+  String _surname;
+  DateTime _dateTime;
+  String _message;
 
+  Message(this._name, this._surname, this._dateTime, this._message);
+
+  String get name => this._name;
+  String get surname => this._surname;
+  String get time =>
+      getTime(this._dateTime.hour.toString()) + ":" +
+      getTime(this._dateTime.minute.toString());
+  String get message => this._message;
+  String getTime(String time) {
+    return ( int.parse(time) < 9) ? "0" + time : time;
+  }
+}
+```
+
+
+### ServerChatroom
+
+- Main dove si stabilisce la connessione con il server socket
+```dart
+void main() {
+  Messaggi = new List();
+  ServerSocket server;
+  // InternetAddress.anyIPv4
+  ServerSocket.bind(InternetAddress.anyIPv4, 8000).then((ServerSocket socket) {
+    server = socket;
+    print('Connection.. --> ' + server.address.address);
+    server.listen((client) {
+      handleConnection(client);
+    });
+  });
+}
+
+void handleConnection(Socket client) {
+  print("\n");
+  print("Connected:");
+  clients.add(ChatClient(client));
+}
+
+void removeClient(ChatClient client) {
+  clients.remove(client);
+}
+```
+
+- Classe che gestisce l'invio dei messaggi e la gestione del server con la creazione degli Utenti
+```dart
+class ChatClient { 
+  Socket _socket;
+  String get address => _socket.remoteAddress.address;
+  int get port => _socket.remotePort;
+  User user = new User();
+
+  ChatClient(Socket s) {
+    _socket = s;
+    _socket.listen(clientHandler,
+        onError: errorHandler, onDone: finishedHandler);
+  }
+
+  void clientHandler(data) {
+    String istruzioni = new String.fromCharCodes(data).trim();
+    int istruzioniCode = int.parse(istruzioni[0]);
+    String istruzioniData = istruzioni.substring(1);
+
+    switch (istruzioniCode) {
+      case 1:
+        {
+          //new user
+          var userData = istruzioniData.split("%/");
+          print("Un nuovo Utente si e' appena collegato!");
+          print("\n");
+          try {
+            user.name = userData[0];
+            user.surname = userData[1];
+          } catch (e) {
+            //print("$e");
+          }
+          if (user.isNotNull()) {
+            String msg = "";
+            for (int i = 0; i < Messaggi.length; i++) {
+              msg += Messaggi[i] + "|";
+            }
+            _socket.write("0" + msg);
+          }
+          break;
+        }
+      case 2: //nuovo messaggio
+        {
+          print("Mex: " + istruzioniData);
+
+          Messaggi.add(istruzioniData);
+          clients.forEach((client) {
+            client._socket.write("0" + istruzioniData);
+          });
+          break;
+        }
+    }
+  }
+
+  void errorHandler(error) {}
+
+  void finishedHandler() {}
+}
+```
+
+- Costruttore Utente
+```dart
+class User {
+  String _name;
+  String _surname;
+
+  String get name => this._name;
+  String get surname => this._surname;
+
+  set name(String name) => this._name = name;
+  set surname(String surname) => this._surname = surname;
+
+  bool isNotNull() {
+    return this._name != null && this._surname != null ? true : false;
+  }
+
+  String toString() {
+    return this._name + "|" + this._surname + "|";
+  }
+}
+```
+
+
+## Eseguibilità e Test
+
+Per eseguire questa applicazione necessitiamo di:
+- 2 o più emulatori Android e/o Telefoni con sistema operativo nativo Android;
+- un server;
+- dart installato nel S.O.
+
+1)
+Iniziamo con l'aprire il cmd e digitare "ipconfig" per determinare il nostro IPv4 da utilizzare per connettersi successivamente tramite app al server.
+Dopo aver messo da parte e salvato l'indirizzo IPv4 con lo stesso cmd ci dirigiamo nella cartella dove c'è il file ServerChatroom.dart e eseguiamo questa
+stringa "dart ServerChatroom.dart" per far partire il server e teniamo quella finestra aperta per tutta la durata dell'app testing.
+
+2)
+Successivamente apriamo i 2 o più emulatori e/o telefoni con sistema nativo Android e runniamo le due applicazioni(che avranno lo stesso codice main.dart),
+dopodichè nell'app ci verrà chiesto di inserire Indirizzo IP Server e Username, nel primo campo inseriamo l'indirizzo IPv4 salvato precedentemente e nel secondo campo
+l'username da utilizzare per chattare e cliccare connettiti.
+ATTENZIONE: scegliere username differenti altrimenti il collegamento verrà rifiutato! (feature voluta).
+
+3)
+Ora, finalmente connessi, si può iniziare a chattare grazie al semplice layout della pagina! 
 
 ## Roadmap
 
 Idee per versioni future:
 
-- Aggiungere decorazioni
-- Aggiungere features di facilitazione come può essere che alla pressione del tasto "Start" si nascondino tutti i pulsanti tranne
-  Giro & Stop, al momento della pressione sullo "Stop" si nascondano i due pulsanti visibili e rendere visibili "Start" & "Reset"
-- Aggiungere una lista scrollable di Widget dove sarà possibile la visualizzazione di tutti i giri(e quindi non solo dell'ultimo)
-  e visualizzando in verde il tempo migliore, in rosso i tempi peggiori.
+- Aggiungere decorazioni e animazioni
+- Aggiungere una modalità di cambio Tema/Sfondo e Colori
+- Aggiungere funzione visualizza profilo
+- Aggiungere funzione scambio immagini
+- Aggiungere funzione scambio link
 
 ## Stato del progetto
 
