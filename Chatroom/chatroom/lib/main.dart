@@ -120,13 +120,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   bool controlIpReal() {
-    return controllerIP.text != "" &&
-        controllerIP.text.length >= 7 &&
-        controllerIP.text.contains(".");
+    return controllerIP.text != "" && controllerIP.text.length >= 7 && controllerIP.text.contains(".");
   }
 
   bool controlUserNull() {
-    return controllerUser.text != "";
+    return controllerUser.text !=  "";
   }
 
   void sendMessage() {

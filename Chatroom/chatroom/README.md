@@ -1,4 +1,4 @@
-# TPSIT Cronometro
+# TPSIT Chatroom
 
 Applicazione Chatroom.
 
@@ -26,7 +26,7 @@ ServerChatroom.dart
 ```
 
 
-Inizando dal Main.dart parliamo delle parti più importanti del codice
+# Main
 
 
 - initState() dove vengono riportate tutti gli stati iniziali
@@ -82,28 +82,68 @@ poi il messaggio visualizzato con due casistiche differenti
 ```
 
 
-Funzione incrementCounter (utilizzata per l'incremento del contatore del cronometro)
+- Controlli aggiuntivi per verificare IP e User
 ```dart
-void _incrementCounter() {
+  bool controlIpNull() {
+    return controllerIP.text != "";
+  }
+
+  bool controlIpReal() {
+    return controllerIP.text != "" && controllerIP.text.length >= 7 && controllerIP.text.contains(".");
+  }
+
+  bool controlUserNull() {
+    return controllerUser.text !=  "";
+  }
+```
+
+- cls() per cancellare la lista dei messaggi nella chat
+```dart
+  void cls() {
+    print("All Mex Deleted!");
     setState(() {
-      if (started) {
-        _counter++;
-        if (_counter >= 60) {
-          _counter = 0;
-          _counterMin++;
-        }
-        if (_counterMin >= 60) {
-          _counterMin = 0;
-          _counterOre++;
-        }
-        if (_counterOre >= 24) {
-          _counterOre = 0;
-          _counterMin = 0;
-          _counter = 0;
-        }
-      }
+      mexs = [];
     });
-}
+  }
+```
+
+- sendMessage() per verificare se il messaggio è vuoto e per garantirne la spedizione
+```dart
+  void sendMessage() {
+    if (controllermexs.text != null && controllermexs.text != "") 
+      server.send("2" +
+          utente.nome +
+          "%/" +
+          utente.cognome +
+          "%/" +
+          DateTime.now().toString() +
+          "%/" +
+          controllermexs.text);
+    controllermexs.text = "";
+    setState(() {
+    });
+  }
+```
+
+```dart
+```
+
+```dart
+```
+
+```dart
+```
+
+```dart
+```
+
+```dart
+```
+
+```dart
+```
+
+```dart
 ```
 
 
