@@ -19,9 +19,10 @@ Ho implementato alcune features tra cui:
 
 In questa applicazione per il corretto funzionamento della Chatroom ho deciso di utilizzare 3 classi:
 
-Dichiarazione Stream
 ```dart
-Stream<int> stream;
+Main.dart
+ServerSocket.dart
+ServerChatroom.dart
 ```
 
 Funzione timedCounter (funzione chiamata dalla funzione contatore per incrementare il contatore di un 1 secondo)
