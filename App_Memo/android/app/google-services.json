@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "568635776361",
+    "project_id": "app-memo-22eab",
+    "storage_bucket": "app-memo-22eab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568635776361:android:3f579abbd122587f4fb1f8",
+        "android_client_info": {
+          "package_name": "com.example.app_memo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "568635776361-msrnfbv41a4jugtktsgm15193uk17sv3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.app_memo",
+            "certificate_hash": "eecc4aa9778c9ecc94a02ffb12ae402672beaf09"
+          }
+        },
+        {
+          "client_id": "568635776361-aniq106i084ep3psdjpnto0r8rhhip60.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYxnyXRaibafO6h2nmpV_4Q5fBiMK-QX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "568635776361-aniq106i084ep3psdjpnto0r8rhhip60.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

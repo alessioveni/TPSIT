@@ -1,0 +1,37 @@
+name: app_memo
+description: A new Flutter project.
+
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  floor: ^0.19.1 
+  cupertino_icons: ^1.0.2
+  http: ^0.12.0
+  firebase_auth: any
+  google_sign_in: any
+  firebase_database: 3.1.6
+  autocomplete_textfield: ^1.7.3
+  flutter_markdown: ^0.6.0
+  flex_color_scheme: any
+  firebase_core: any
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  floor_generator: ^0.19.1
+  build_runner: ^1.11.5
+  faker: any
+ 
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
