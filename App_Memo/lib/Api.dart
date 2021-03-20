@@ -14,7 +14,7 @@ class Api {  //metodi
     print('body--> ' + body);
   }
 
-  deleteMemo(param) async { //param è "all" (se avessi avuto più tempo avrei inserito anche un id memo)
+  deleteMemo(param) async { //param è "all" 
     String params = '?delete=' + param;
     url = url + '/api/memo/delete' + params;
 
