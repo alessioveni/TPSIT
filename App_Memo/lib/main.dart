@@ -88,14 +88,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _newMemo(Memo memo) async {
-    //final memo = Memo(title: faker.food.dish(), body: "Body", tag: "Tag");
     await widget.dao.newMemo(memo);
-    print("New memo still working.");
   }
 
   void sincronize() async {
-    //Api a = new Api();
-    //a.uploadMemoOnline('TitleP', 'BodyP', 'TagP');
     _deleteAllMemo();
     List<Memo> memos = await fetchDataList();
     print(memos.length);
@@ -186,21 +182,16 @@ class _MyHomePageState extends State<MyHomePage> {
             return ListView(
                 children: List.generate(listMemo.length, (index) {
               tags.add('${listMemo[index].tag}');
-              //print('${listMemo[index].tag}');
               return Container(
                   margin: EdgeInsets.all(15.20),
                   padding: const EdgeInsets.all(10.0),
                   decoration: new BoxDecoration(
                     border: Border.all(color: FlexColor.mandyRedDarkPrimary, width: 4.0),
-                    //borderRadius: BorderRadius.vertical()
                   ),
                   child: ListTile(
                     onTap: () {
                       print("Tap (${listMemo[index].title}");
-                      //Navigator.pushNamed(context, '/a');
                       Navigator.of(context).push(
-                          // With MaterialPageRoute, you can pass data between pages,
-                          // but if you have a more complex app, you will quickly get lost.
                           MaterialPageRoute(
                         builder: (context) => NewMemo(
                             title: 'Modifica',
@@ -241,7 +232,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ]),
                     ),
-                    //trailing: Icon(Icons.done),
                   ));
             }));
           } else {
@@ -253,7 +243,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //print(tags);
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => NewMemo(
                 title: 'Crea',
@@ -280,14 +269,11 @@ class EditMemo {
   EditMemo(this.title, this.message);
 }
 
-// A widget that extracts the necessary arguments from the ModalRoute.
 class ExtractArgumentsScreen extends StatelessWidget {
   static const routeName = '/extractArguments';
 
   @override
   Widget build(BuildContext context) {
-    // Extract the arguments from the current ModalRoute settings and cast
-    // them as ScreenArguments.
     final EditMemo args = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(

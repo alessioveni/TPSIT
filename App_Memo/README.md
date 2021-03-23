@@ -18,7 +18,7 @@ Ho implementato alcune features tra cui:
 ## Utilizzo
 
 NB. Necessità di un account google per poter funzionare!!
-In questa applicazione per il corretto funzionamento della Chatroom ho deciso di utilizzare alcune classi divise per sezioni:
+In questa applicazione per il corretto funzionamento dei Memo ho deciso di utilizzare alcune classi divise per sezioni:
 
 - DAO
 ```dart

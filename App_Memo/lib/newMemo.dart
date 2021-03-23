@@ -124,12 +124,8 @@ class _newMemoState extends State<NewMemo> {
                     focusedBorder: OutlineInputBorder(
                       borderSide:
                           const BorderSide(color: FlexColor.jungleLightSecondary, width: 3.0),
-                      //borderRadius: BorderRadius.circular(25.0),
                     ),
                     labelStyle: TextStyle(color: FlexColor.jungleLightSecondary),
-                    //enabledBorder: ,
-                    //hintText: 'Titolo',
-                    //hintStyle: TextStyle(color: Colors.blue),
                     filled: true,
                     labelText: 'Nome Memo',
                   ),
@@ -139,7 +135,6 @@ class _newMemoState extends State<NewMemo> {
                   padding: EdgeInsets.all(16.0),
                   child: TextFormField(
                     controller: bodyController,
-                    //showCursor: false,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                     onChanged: (text) {
@@ -147,18 +142,13 @@ class _newMemoState extends State<NewMemo> {
                       print(memoBody.toString());
                     },
                     obscureText: false,
-                    //cursorColor: Colors.blue,
                     decoration: InputDecoration(
-                      //enabledBorder: ,
-                      //hintText: 'Titolo',
-                      //hintStyle: TextStyle(color: Colors.red),
                       border: new OutlineInputBorder(
                           borderSide: new BorderSide(color: Colors.blue)),
 
                       focusedBorder: OutlineInputBorder(
                         borderSide:
                             const BorderSide(color: FlexColor.jungleLightSecondary, width: 3.0),
-                        //borderRadius: BorderRadius.circular(25.0),
                       ),
                       labelStyle: TextStyle(color: FlexColor.jungleLightSecondary),
                       filled: true,
@@ -168,25 +158,12 @@ class _newMemoState extends State<NewMemo> {
                   )),
               new ListTile(
                 title: textField,
-                /*trailing: IconButton(
-                  icon: Icon(
-                    Icons.backspace,
-                    color: FlexColor.barossaLightPrimary,
-                  ),
-                  onPressed: () {
-                    tagController.text = "";
-                  },
-                  
-                  
-                ),*/
-                
                 onTap: () {
-                  //print("Tap");
                 },
               ),
             ],
-          ) //col
-              ) //center
+          ) 
+              ) 
           ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
