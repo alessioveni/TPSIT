@@ -5,7 +5,7 @@ Applicazione App Memo.
 ## Descrizione
 
 TPSIT App Memo è un'applicazione utilizzabile come promemoria con dei memo.
-Viene gestito tramite l'utilizzo di google per loggare.
+Viene gestita tramite l'utilizzo di google per loggare.
 
 Ho implementato alcune features tra cui:
 - Refresh dei messaggi instantaneo tramite un bottone nella homepage;

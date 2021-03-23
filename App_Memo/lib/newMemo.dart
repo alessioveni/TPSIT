@@ -155,14 +155,16 @@ class _newMemoState extends State<NewMemo> {
           ) 
               ) 
           ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.pop(context);
           _newMemo(
               titleController.text, bodyController.text, tagController.text);
         },
-        tooltip: 'Save',
-        child: Icon(Icons.add_to_photos_rounded),
+        //tooltip: 'Save',
+        //Icon(Icons.add_to_photos_rounded),
+        icon: Icon(Icons.save),  
+        label: Text("Save"),  
       ),
     );
   }
