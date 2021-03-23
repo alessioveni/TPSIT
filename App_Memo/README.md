@@ -138,112 +138,62 @@ class Memo {
 ### JsonApi
 
 
-- Main dove si stabilisce la connessione con il server socket
+- Metodo che esegue l'upload dei memo al database
 ```dart
-void main() {
-  Messaggi = new List();
-  ServerSocket server;
-  // InternetAddress.anyIPv4
-  ServerSocket.bind(InternetAddress.anyIPv4, 8000).then((ServerSocket socket) {
-    server = socket;
-    print('Connection.. --> ' + server.address.address);
-    server.listen((client) {
-      handleConnection(client);
-    });
-  });
-}
-
-void handleConnection(Socket client) {
-  print("\n");
-  print("Connected:");
-  clients.add(ChatClient(client));
-}
-
-void removeClient(ChatClient client) {
-  clients.remove(client);
-}
+  uploadMemoOnline(String title, String memoBody, String tag) async {
+    String params = '?title=' + title + '&body=' + memoBody + '&tag=' + tag;
+    url = url + '/api/memo/new' + params;
+    Response response = await post(url, headers: headers); 
+    int statusCode = response.statusCode;
+    print('statusCode--> ' + statusCode.toString());
+    String body = response.body;
+    print('body--> ' + body);
+  }
 ```
 
-- Classe che gestisce l'invio dei messaggi e la gestione del server con la creazione degli Utenti
+- Metodo che esegue la rimozione dei memo dal database
 ```dart
-class ChatClient { 
-  Socket _socket;
-  String get address => _socket.remoteAddress.address;
-  int get port => _socket.remotePort;
-  User user = new User();
+  deleteMemo(param) async { //param è "all" 
+    String params = '?delete=' + param;
+    url = url + '/api/memo/delete' + params;
 
-  ChatClient(Socket s) {
-    _socket = s;
-    _socket.listen(clientHandler,
-        onError: errorHandler, onDone: finishedHandler);
+    Response response = await post(url, headers: headers); //, body: json
+    int statusCode = response.statusCode;
+    print('statusCode--> ' + statusCode.toString());
+    String body = response.body;
+    print('body--> ' + body);
   }
-
-  void clientHandler(data) {
-    String istruzioni = new String.fromCharCodes(data).trim();
-    int istruzioniCode = int.parse(istruzioni[0]);
-    String istruzioniData = istruzioni.substring(1);
-
-    switch (istruzioniCode) {
-      case 1:
-        {
-          //new user
-          var userData = istruzioniData.split("%/");
-          print("Un nuovo Utente si e' appena collegato!");
-          print("\n");
-          try {
-            user.name = userData[0];
-            user.surname = userData[1];
-          } catch (e) {
-            //print("$e");
-          }
-          if (user.isNotNull()) {
-            String msg = "";
-            for (int i = 0; i < Messaggi.length; i++) {
-              msg += Messaggi[i] + "|";
-            }
-            _socket.write("0" + msg);
-          }
-          break;
-        }
-      case 2: //nuovo messaggio
-        {
-          print("Mex: " + istruzioniData);
-
-          Messaggi.add(istruzioniData);
-          clients.forEach((client) {
-            client._socket.write("0" + istruzioniData);
-          });
-          break;
-        }
-    }
-  }
-
-  void errorHandler(error) {}
-
-  void finishedHandler() {}
-}
 ```
 
-- Costruttore Utente
+
+### Main
+
+
+- Metodo che esegue l'upload dei memo al database
 ```dart
-class User {
-  String _name;
-  String _surname;
-
-  String get name => this._name;
-  String get surname => this._surname;
-
-  set name(String name) => this._name = name;
-  set surname(String surname) => this._surname = surname;
-
-  bool isNotNull() {
-    return this._name != null && this._surname != null ? true : false;
+  uploadMemoOnline(String title, String memoBody, String tag) async {
+    String params = '?title=' + title + '&body=' + memoBody + '&tag=' + tag;
+    url = url + '/api/memo/new' + params;
+    Response response = await post(url, headers: headers); 
+    int statusCode = response.statusCode;
+    print('statusCode--> ' + statusCode.toString());
+    String body = response.body;
+    print('body--> ' + body);
   }
+```
 
-  String toString() {
-    return this._name + "|" + this._surname + "|";
+- Metodo che esegue la rimozione dei memo dal database
+```dart
+  deleteMemo(param) async { //param è "all" 
+    String params = '?delete=' + param;
+    url = url + '/api/memo/delete' + params;
+
+    Response response = await post(url, headers: headers); //, body: json
+    int statusCode = response.statusCode;
+    print('statusCode--> ' + statusCode.toString());
+    String body = response.body;
+    print('body--> ' + body);
   }
-}
 ```
 
 
