@@ -48,7 +48,7 @@ Generated_plugin_registrant.dart (generato automaticamente)
 ### Dar_floor
 
 
-- definisce tutti i metodi applicabili all'entità memo
+- Definisce tutti i metodi applicabili all'entità memo
 ```dart
   @insert
   Future<void> newMemo(Memo memo);
@@ -73,7 +73,7 @@ Generated_plugin_registrant.dart (generato automaticamente)
 ### Database
 
 
-- file dal quale si creerà il database
+- File dal quale si creerà il database
 ```dart
 @Database(version: 1, entities: [Memo]) 
 abstract class AppDatabase extends FloorDatabase {
@@ -85,7 +85,7 @@ abstract class AppDatabase extends FloorDatabase {
 ### Memo
 
 
-- metodo fetchDataList() prendendo spunto dall'app Maree
+- Metodo fetchDataList() prendendo spunto dall'app Maree
 ```dart
 Future<List<Memo>> fetchDataList() async { 
   final response = await http.get('https://2524fb95ed5e.ngrok.io');
