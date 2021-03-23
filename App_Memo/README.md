@@ -153,11 +153,11 @@ class Memo {
 
 - Metodo che esegue la rimozione dei memo dal database
 ```dart
-  deleteMemo(param) async { //param è "all" 
+  deleteMemo(param) async { 
     String params = '?delete=' + param;
     url = url + '/api/memo/delete' + params;
 
-    Response response = await post(url, headers: headers); //, body: json
+    Response response = await post(url, headers: headers); 
     int statusCode = response.statusCode;
     print('statusCode--> ' + statusCode.toString());
     String body = response.body;
@@ -167,6 +167,293 @@ class Memo {
 
 
 ### Main
+
+
+- Tema dinamico Light & Dark, in base alle impostazioni tema del cellulare cambia tema nella applicazione(System)
+```dart
+Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'App Memo',
+      theme: FlexColorScheme.light(
+        colors: FlexColor.schemes[FlexScheme.mandyRed].light,
+      ).toTheme,
+      darkTheme: FlexColorScheme.dark(
+        colors: FlexColor.schemes[FlexScheme.mandyRed].dark,
+      ).toTheme,
+      themeMode: ThemeMode.system,
+      home: MyHomePage(title: 'App Memo', dao: dao),
+    );
+  }
+```
+
+- Metodi che garantiscono il corretto funzionamento del servizio di login e logout di Google
+```dart
+bool _isLoggedIn = false;
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+
+  login() async {
+    try {
+      await _googleSignIn.signIn();
+      setState(() {
+        _isLoggedIn = true;
+      });
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  logout() {
+    _googleSignIn.signOut();
+    setState(() {
+      _isLoggedIn = false;
+    });
+  }
+```
+
+- Parte grafica della Homepage dell'applicazione
+```dart
+ @override
+  Widget build(BuildContext context) {
+    
+    return Scaffold(
+      appBar: AppBar(
+        title: 
+        Text(widget.title),
+        actions: [
+          
+          IconButton(
+              icon: Icon(Icons.login),
+              onPressed: () {
+                login();
+              }),
+          IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                logout();
+              }),
+          IconButton(
+              icon: Icon(Icons.delete_sweep),
+              onPressed: () {
+                api.deleteMemo('all');
+                _deleteAllMemo();
+                setState(() {});
+              }),
+          IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {
+                sincronize();
+              }),
+        ],
+      ),
+      body: StreamBuilder(
+        stream: widget.dao.getAllMemo(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError)
+            return Center(
+              child: Text('${snapshot.error}'),
+            );
+          else if (snapshot.hasData) {
+            var listMemo = snapshot.data as List<Memo>;
+            return ListView(
+                children: List.generate(listMemo.length, (index) {
+              tags.add('${listMemo[index].tag}');
+              return Container(
+                  margin: EdgeInsets.all(15.20),
+                  padding: const EdgeInsets.all(10.0),
+                  decoration: new BoxDecoration(
+                    border: Border.all(color: FlexColor.mandyRedDarkPrimary, width: 4.0),
+                  ),
+                  child: ListTile(
+                    onTap: () {
+                      print("Tap (${listMemo[index].title}");
+                      Navigator.of(context).push(
+                          MaterialPageRoute(
+                        builder: (context) => NewMemo(
+                            title: 'Modifica',
+                            dao: widget.dao,
+                            memoTag: '${listMemo[index].tag}',
+                            memoBody: '${listMemo[index].body}',
+                            memoTitle: '${listMemo[index].title}',
+                            tags: tags),
+                      ));
+                    },
+                    title: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Column(children: <Widget>[
+                        Row(
+                          children: [
+                            Text(
+                              '${shortTitle(listMemo[index].title)[0]}',
+                              
+                              style: Theme.of(context).textTheme.headline5,
+                            ),
+                            Visibility(
+                              child: Text(
+                                '${getShortTag(listMemo[index].tag)}',
+                                
+                                style: TextStyle(
+                                    color: FlexColor.mandyRedDarkPrimary,
+                                    fontSize: 20,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                              visible: aas,
+                            )
+                          ],
+                        ),
+                        Text(
+                          '${shortTitle(listMemo[index].body)[0]}',
+                          style: Theme.of(context).textTheme.bodyText1,
+                          
+                        ),
+                      ]),
+                    ),
+                  ));
+            }));
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => NewMemo(
+                title: 'Crea',
+                dao: widget.dao,
+                memoTag: '',
+                memoBody: '',
+                memoTitle: '',
+                tags: tags),
+          ));
+        },
+        tooltip: 'New',
+        child: Icon(
+          Icons.add,
+          color: Colors.black,
+        ),
+      ),
+    );
+  }
+}
+```
+
+
+### New Memo
+
+
+- Classe costruttore per la creazione di un nuovo memo 
+```dart
+class New_Memo extends StatefulWidget {
+  NewMemo(
+      {Key key,
+      this.title,
+      this.dao,
+      this.memoTag,
+      this.memoBody,
+      this.memoTitle,
+      this.tags})
+      : super(key: key);
+  final String title;
+  final String memoTag, memoBody, memoTitle;
+  final List<String> tags;
+
+  @override
+  _newMemoState createState() =>
+      _newMemoState(title, dao, memoTag, memoBody, memoTitle, tags);
+}
+```
+
+
+- Parte grafica della creazione dell'entità memo dell'applicazione
+```dart
+Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        
+      ),
+      body: Padding(
+          padding: EdgeInsets.all(2.0),
+          child: Center(
+              child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: TextFormField(
+                  inputFormatters: [
+                    new LengthLimitingTextInputFormatter(30),
+                  ],
+                  style: TextStyle(color: FlexColor.jungleLightSecondary),
+                  onChanged: (text) {
+                  },
+                  autofocus: true,
+                  obscureText: false,
+                  controller: titleController,
+                  decoration: InputDecoration(
+                    border: new OutlineInputBorder(
+                          borderSide: new BorderSide(color: FlexColor.jungleLightSecondary)),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: FlexColor.jungleLightSecondary, width: 3.0),
+                    ),
+                    labelStyle: TextStyle(color: FlexColor.jungleLightSecondary),
+                    filled: true,
+                    labelText: 'Nome Memo',
+                  ),
+                ),
+              ),
+              Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: TextFormField(
+                    controller: bodyController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    onChanged: (text) {
+                      memoBody = text;
+                      print(memoBody.toString());
+                    },
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      border: new OutlineInputBorder(
+                          borderSide: new BorderSide(color: Colors.blue)),
+
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: FlexColor.jungleLightSecondary, width: 3.0),
+                      ),
+                      labelStyle: TextStyle(color: FlexColor.jungleLightSecondary),
+                      filled: true,
+                      labelText: 'Testo',
+                    ),
+                    style: TextStyle(color: FlexColor.jungleLightSecondary),
+                  )),
+              new ListTile(
+                title: textField,
+                onTap: () {
+                },
+              ),
+            ],
+          ) 
+              ) 
+          ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+          _newMemo(
+              titleController.text, bodyController.text, tagController.text);
+        },
+        tooltip: 'Save',
+        child: Icon(Icons.add_to_photos_rounded),
+      ),
+    );
+  }
+```
+
+
+### JsonApi
 
 
 - Metodo che esegue l'upload dei memo al database
@@ -184,11 +471,11 @@ class Memo {
 
 - Metodo che esegue la rimozione dei memo dal database
 ```dart
-  deleteMemo(param) async { //param è "all" 
+  deleteMemo(param) async { 
     String params = '?delete=' + param;
     url = url + '/api/memo/delete' + params;
 
-    Response response = await post(url, headers: headers); //, body: json
+    Response response = await post(url, headers: headers); 
     int statusCode = response.statusCode;
     print('statusCode--> ' + statusCode.toString());
     String body = response.body;
