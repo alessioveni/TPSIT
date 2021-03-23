@@ -453,48 +453,78 @@ Widget build(BuildContext context) {
 ```
 
 
-### JsonApi
+### Servizio Server
 
 
-- Metodo che esegue l'upload dei memo al database
+- Costruttore per creare un client
 ```dart
-  uploadMemoOnline(String title, String memoBody, String tag) async {
-    String params = '?title=' + title + '&body=' + memoBody + '&tag=' + tag;
-    url = url + '/api/memo/new' + params;
-    Response response = await post(url, headers: headers); 
-    int statusCode = response.statusCode;
-    print('statusCode--> ' + statusCode.toString());
-    String body = response.body;
-    print('body--> ' + body);
-  }
+  const client = new Client({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'app_memo',
+    password: 'admin',
+    port: 5432,
+});
 ```
 
-- Metodo che esegue la rimozione dei memo dal database
+- Metodo che ritorna tutti i memo presenti
 ```dart
-  deleteMemo(param) async { 
-    String params = '?delete=' + param;
-    url = url + '/api/memo/delete' + params;
+function getAllMemos() {
+    const query = `SELECT * FROM memo`;
+    client.query(query)
+        .then(res => {
+            memos = res.rows;
+            console.log(res.rows);
+            return res.rows;
+        })
+        .catch(err => {
+            console.error(err)
+        })
+}
+```
 
-    Response response = await post(url, headers: headers); 
-    int statusCode = response.statusCode;
-    print('statusCode--> ' + statusCode.toString());
-    String body = response.body;
-    print('body--> ' + body);
-  }
+- Metodo che inserisce un memo dando in input i dati necessari
+```dart
+function addMemo(title, body, tag) {
+    const query = `insert into memo (title, body, tag) VALUES ('${title}','${body}','${tag}');`;
+    client.query(query)
+        .then(res => {
+            memos = res.rows;
+            console.log(res.rows);
+            return res.rows;
+        })
+        .catch(err => {
+            console.error(err)
+        })
+}
 ```
 
 
 ## Eseguibilità e Test
 
 Per eseguire questa applicazione necessitiamo di:
-- 2 o più emulatori Android e/o Telefoni con sistema operativo nativo Android;
-- un server;
+- 1 emulatore Android e/o Telefoni con sistema operativo nativo Android;
+- 3 cmd;
 - dart installato nel S.O.
+- node installato nel S.O.
+- express installato nel S.O.
+- ngrok installato nel S.O.
+- posteSQL installato nel S.O.
+
 
 1)
-Iniziamo con l'aprire il cmd e digitare "ipconfig" per determinare il nostro IPv4 da utilizzare per connettersi successivamente tramite app al server.
-Dopo aver messo da parte e salvato l'indirizzo IPv4 con lo stesso cmd ci dirigiamo nella cartella dove c'è il file ServerChatroom.dart e eseguiamo questa
-stringa "dart ServerChatroom.dart" per far partire il server e teniamo quella finestra aperta per tutta la durata dell'app testing.
+Iniziamo con l'aprire il primo cmd dove introduceremo il primo comando utile:
+```dart
+psql -h localhost -U postgres
+```
+continueremo inserendo la password e con il seguente comando:
+```dart
+\c app_memo;
+```
+da questo momento possiamo inserire le Query per poter avere delle risposte 'Memo' dal server.
+```dart
+ESEMPIO: SELECT * FROM memo;
+```
 
 2)
 Successivamente apriamo i 2 o più emulatori e/o telefoni con sistema nativo Android e runniamo le due applicazioni(che avranno lo stesso codice main.dart),
