@@ -75,293 +75,68 @@ Generated_plugin_registrant.dart (generato automaticamente)
 
 - file dal quale si creerà il database
 ```dart
-Container(
-    decoration: BoxDecoration(
-        color: Colors.teal[100].withOpacity(0.8),
-        borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: TextField(
-            onChanged: (text) {
-                print(controllerIP.text.contains("."));
-                setState(() {});
-            },
-            keyboardType: TextInputType.number,
-            controller: controllerIP,
-            cursorColor: Colors.white,
-            style: TextStyle(color: Colors.black),
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Server Ip',
-                suffixIcon: Visibility(
-                    visible: controlIpNull(),
-                    child: IconButton(
-                        color: Colors.black,
-                        onPressed: () =>
-                            {controllerIP.clear(), setState(() {})},
-                            icon: Icon(Icons.clear),
-                    ),
-                ),
-                prefixIcon: Visibility(
-                    visible: controlIpReal(),
-                    child: IconButton(
-                        color: Colors.green,
-                        icon: Icon(Icons.verified),
-                    ),
-                ),
-            ),
-        ),
-    ),
+@Database(version: 1, entities: [Memo]) 
+abstract class AppDatabase extends FloorDatabase {
+  Dao_floor get dao_floor;
+}
 ```
-- TextField dove inserire il proprio nome Utente per iniziare a chattare!
+
+
+### Memo
+
+
+- metodo fetchDataList() prendendo spunto dall'app Maree
 ```dart
-Container(
-    decoration: BoxDecoration(
-        color: Colors.teal[100].withOpacity(0.8),
-    borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: TextField(
-            onChanged: (text) {
-                setState(() {});
-            },
-            controller: controllerUser,
-            cursorColor: Colors.white,
-            style: TextStyle(color: Colors.black),
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Name',
-                suffixIcon: Visibility(
-                    visible: controlUserNull(),
-                    child: IconButton(
-                        color: Colors.black,
-                        onPressed: () =>
-                            {controllerUser.clear(), setState(() {})},
-                        icon: Icon(Icons.clear),
-                    ),
-                ),
-                prefixIcon: Visibility(
-                    visible: controlUserNull(),
-                    child: IconButton(
-                        color: Colors.green,
-                        icon: Icon(Icons.verified),
-                    ),
-                ),
-            ),
-        ),
-    ),
+Future<List<Memo>> fetchDataList() async { 
+  final response = await http.get('https://2524fb95ed5e.ngrok.io');
+  if (response.statusCode == 200) {
+    final parsed = json.decode(response.body);
+    print('body parsed ${parsed}');
+    print(parsed.toString());
+    return parsed.map<Memo>((json) => Memo.fromJson(json)).toList();
+  } else {
+    throw Exception('Errore inserimento dati!');
+  }
+}
 ```
-- Bottone che quando cliccato permette l'invio dei dati inseriti nei due TextField e quindi di connettersi(se i dati sono correttamente inseriti)
-permette inoltre la creazione di un nuovo User utilizzando il nome inserito
+
+- Entità Memo JSON generata automaticamente da un sito 
 ```dart
-Container(
-    alignment: Alignment.center,
-    decoration: BoxDecoration(
-        color: Colors.teal[100].withOpacity(0.8),
-        borderRadius: BorderRadius.all(Radius.circular(35))),
-        child: FlatButton(
-            minWidth: 250,
-            onPressed: () {
-                utente = new User(controllerUser.text, " "); 
-                ip = controllerIP.text;
-                server.connect(utente, receive, ip);
-            },
-            child: Text("Click to Connect!"),
-        ),
-    ),
-```
-- Layout seconda schermata di chat, textField che permette l'invio del messaggio e possibilità di visualizzarlo
-nel body
-```dart
-return Scaffold(
-    appBar: AppBar(
-        leading: IconButton(
-            color: Colors.black,
-            onPressed: () => {},
-            icon: Icon(Icons.account_circle),
-        ),
-        title: Text(controllerUser.text),
-        actions: [
-            IconButton(
-                color: Colors.black,
-                onPressed: () => {cls()},
-                icon: Icon(Icons.delete),
-            ),
-        ],
-    ),
-    body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/photo.jpg"),
-                fit: BoxFit.cover,
-            ),
-        ),
-        child: Column(
-            children: [
-                Expanded(
-                    child: ListView.builder(
-                        itemCount: mexs.length,
-                        reverse: true,
-                        itemBuilder: (context, index) {
-                            if (mexs[mexs.length - index - 1].name == utente.nome) {
-                                return Container(
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                            children: [
-                                                Spacer(),
-                                                MexMaker(index),
-                                            ],
-                                        ),
-                                    ),
-                                );
-                            } else {
-                                return Container(
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                            children: [
-                                               MexMaker(index),
-                                               Spacer(),
-                                            ],
-                                        ),
-                                    ),
-                                );
-                            }
-                        },
-                    ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(45)),
-                        child: Container(
-                            color: Colors.grey[900],
-                            child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10, right: 10, top: 2, bottom: 2),
-                                    child: Row(
-                                        children: [
-                                            Expanded(
-                                                child: TextField(
-                                                    controller: controllermexs,
-                                                    style: TextStyle(color: Colors.black),
-                                                    decoration: InputDecoration(
-                                                        border: InputBorder.none,
-                                                    hintText: 'Message...'),
-                                                ),
-                                            ),
-                                            IconButton(
-                                                icon: Icon(Icons.send),
-                                                color: Colors.lightBlueAccent[100],
-                                                onPressed: () {
-                                                    sendMessage();
-                                                })
-                                            ],
-                                        ),
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ],
-                )
-            )
-        )
-    )
-);
-```
-- Creazione del messaggio che verrà poi visualizzato nella seconda schermata di chat(secondo Scaffold) 
-```dart
-Widget MexMaker(int pos) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.teal[900].withOpacity(0.8),
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '${mexs[mexs.length - pos - 1].name}',
-              style: TextStyle(color: Colors.white60, fontSize: 10),
-            ),
-            Text(
-              '${mexs[mexs.length - pos - 1].message}',
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            Text(
-              '${mexs[mexs.length - pos - 1].time}' + ' ✓✓',
-              style: TextStyle(color: Colors.white60, fontSize: 10, ),
-            ),
-          ],
-        ),
-      ),
+@entity
+class Memo {  
+  @PrimaryKey(autoGenerate: true)
+  final int id;
+  String title;
+  String body;
+  String tag;
+  String status;
+  Memo({this.id, this.title, this.body, this.tag, this.status});
+
+  factory Memo.fromJson(Map<String, dynamic> json) {
+    return Memo(
+      id: json['id'] as int,
+      title: json['title'] as String,
+      body: json['body'] as String,
+      tag: json['tag'] as String,
+      status: json['status'] as String,
     );
   }
-}
-```
 
-
-### ServerSocket
-
-- Gestisce il Server Socket, lo User, la funziona che riceve il messaggio e l'indirizzo IP, tutto questo in modo asincrono
-```dart
-class ServerSocket {
-  Socket _socket;
-  List<Message> chat = [];
-
-  void connect(User _userData, Function receive, ip) async {
-    await Socket.connect(ip, 8000).then((Socket sock) {
-      this._socket = sock;
-      _socket.listen(receive,
-          onError: _errorHandler, onDone: _doneHandler, cancelOnError: false);
-    }).catchError((Object e) {
-      print("Unable to connect: $e");
-    });
-
-    _socket.write("1" + _userData.nome.toLowerCase() + "%/" + _userData.cognome.toLowerCase());
-  }
-
-  void _errorHandler(error, StackTrace trace) {
-    print(error);
-  }
-
-  void Destroy() {
-    _socket.destroy();
-  }
-
-  void _doneHandler() {
-    _socket.destroy();
-  }
-
-  void send(data) {
-    _socket.write(data);
-  }
-}
-```
-- Costruttore del messaggio con i seguenti paramentri: Nome, Cognome(facoltativo, utilizzato nelle prossime versioni),
-data del messaggio e la parte più importante, Il messaggio
-```dart
-class Message { 
-  String _name;
-  String _surname;
-  DateTime _dateTime;
-  String _message;
-
-  Message(this._name, this._surname, this._dateTime, this._message);
-
-  String get name => this._name;
-  String get surname => this._surname;
-  String get time =>
-      getTime(this._dateTime.hour.toString()) + ":" +
-      getTime(this._dateTime.minute.toString());
-  String get message => this._message;
-  String getTime(String time) {
-    return ( int.parse(time) < 9) ? "0" + time : time;
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['body'] = this.body;
+    data['tag'] = this.tag;
+    data['status'] = this.status;
+    return data;
   }
 }
 ```
 
 
-### ServerChatroom
+### JsonApi
+
 
 - Main dove si stabilisce la connessione con il server socket
 ```dart

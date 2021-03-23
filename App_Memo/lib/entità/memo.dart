@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:floor/floor.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<Memo>> fetchDataList() async { //presa da app maree (copia)
+Future<List<Memo>> fetchDataList() async { 
   final response = await http.get('https://2524fb95ed5e.ngrok.io');
   if (response.statusCode == 200) {
     final parsed = json.decode(response.body);
@@ -15,7 +15,7 @@ Future<List<Memo>> fetchDataList() async { //presa da app maree (copia)
 }
 
 @entity
-class Memo {  //generata sulla base di lezioni prof con un sito(inserisci: json che vuoi, e ti crea oggetto di dart)
+class Memo {  
   @PrimaryKey(autoGenerate: true)
   final int id;
 
