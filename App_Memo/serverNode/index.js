@@ -14,7 +14,6 @@ const client = new Client({
 });
 
 client.connect();
-
 var https = require('https');
 var http = require('http');
 const fs = require('fs');
@@ -31,7 +30,6 @@ function getAllMemo() {
     const query = `SELECT * FROM memo`;
     client.query(query)
         .then(res => {
-            //memos = res.rows;
             memos = res.rows;
             console.log(res.rows);
             return res.rows;
@@ -45,7 +43,6 @@ function insertNewMemo(title, body, tag) {
     const query = `insert into memo (title, body, tag) VALUES ('${title}','${body}','${tag}');`;
     client.query(query)
         .then(res => {
-            //memos = res.rows;
             memos = res.rows;
             console.log(res.rows);
             return res.rows;
