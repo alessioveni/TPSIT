@@ -504,7 +504,7 @@ function addMemo(title, body, tag) {
 
 Per eseguire questa applicazione necessitiamo di:
 - 1 emulatore Android e/o Telefoni con sistema operativo nativo Android;
-- 3 cmd;
+- 2 cmd;
 - dart installato nel S.O.
 - node installato nel S.O.
 - express installato nel S.O.
@@ -527,23 +527,33 @@ ESEMPIO: SELECT * FROM memo;
 ```
 
 2)
-Successivamente apriamo i 2 o più emulatori e/o telefoni con sistema nativo Android e runniamo le due applicazioni(che avranno lo stesso codice main.dart),
-dopodichè nell'app ci verrà chiesto di inserire Indirizzo IP Server e Username, nel primo campo inseriamo l'indirizzo IPv4 salvato precedentemente e nel secondo campo
-l'username da utilizzare per chattare e cliccare connettiti.
-ATTENZIONE: scegliere username differenti altrimenti il collegamento verrà rifiutato! (feature voluta).
+Successivamente apriamo il secondo cmd dove eseguiremo il server Node.
+Prima cosa da fare: 
+entrare nella cartella 'servizioServer' ed eseguire questo comando:
+```dart
+node index.js
+```
 
-3)
-Ora, finalmente connessi, si può iniziare a chattare grazie al semplice layout della pagina! 
+4)
+Dopo di chè ci resta solo l'esecuzione di ngrok.exe che avrà l'aspetto di un prompt dei comandi classico,
+```dart
+ngrok http 2002
+```
+
+5)
+Ora possiamo proseguire copiando il link che verrà generato (simile a questo: 'https://2524fb95ed5e.ngrok.io')
+Questo link dovremmo inserirlo nelle apposite variabili allocate in JsonApi.dart & entità/memo.dart
+
+6)
+Ora, finalmente connessi, si può iniziare ad utilizzare l'applicazione senza problemi!
 
 ## Roadmap
 
 Idee per versioni future:
 
 - Aggiungere decorazioni e animazioni
-- Aggiungere una modalità di cambio Tema/Sfondo e Colori
-- Aggiungere funzione visualizza profilo
-- Aggiungere funzione scambio immagini
-- Aggiungere funzione scambio link
+- Aggiungere funzione aggiunta immagini nel memo
+- Aggiungere funzione draw nel memo
 
 ## Stato del progetto
 
