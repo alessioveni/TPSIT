@@ -14,7 +14,7 @@ Future<void> main() async {
   final dao = database.memoDAO;
   runApp(MyApp(dao: dao));
 }
-
+//
 class MyApp extends StatelessWidget {
   MyApp({this.dao});
   final MemoDAO dao;
