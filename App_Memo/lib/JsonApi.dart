@@ -2,7 +2,7 @@ import 'package:http/http.dart';
 
 class Api {  //metodi 
   Map<String, String> headers = {"Content-type": "application/json"};
-  String url = 'https://041278799cfd.ngrok.io';
+  String url = 'https://2524fb95ed5e.ngrok.io';
 
   uploadMemoOnline(String title, String memoBody, String tag) async {
     String params = '?title=' + title + '&body=' + memoBody + '&tag=' + tag;

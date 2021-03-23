@@ -1,11 +1,10 @@
-import 'package:app_memo/Api.dart';
+import 'package:app_memo/JsonApi.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:app_memo/dao/dao_floor.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/services.dart';
 import 'entità/memo.dart';
-import 'Alerts.dart';
 
 class NewMemo extends StatefulWidget {
   NewMemo(
@@ -69,8 +68,6 @@ class _newMemoState extends State<NewMemo> {
   }
 
   static SimpleAutoCompleteTextField textField;
-
-  static final c = new Alerts();
   final String title;
   final MemoDAO dao;
 
@@ -79,7 +76,6 @@ class _newMemoState extends State<NewMemo> {
     Api a = new Api();
     a.uploadMemoOnline(title, body, tag);
     await widget.dao.newMemo(Memo(title: title, body: body, tag: tag));
-    print("New memo still working.");
   }
 
   void deleteAllMemo() async {
@@ -93,13 +89,7 @@ class _newMemoState extends State<NewMemo> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.delete_sweep),
-              onPressed: () {
-                c.showAlertDialog(context);
-              })
-        ],
+        
       ),
       body: Padding(
           padding: EdgeInsets.all(2.0),

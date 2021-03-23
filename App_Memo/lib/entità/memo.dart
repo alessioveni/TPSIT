@@ -3,14 +3,14 @@ import 'package:floor/floor.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<Memo>> fetchDataList() async { //presa da app maree (copia)
-  final response = await http.get('https://041278799cfd.ngrok.io');
+  final response = await http.get('https://2524fb95ed5e.ngrok.io');
   if (response.statusCode == 200) {
     final parsed = json.decode(response.body);
     print('body parsed ${parsed}');
     print(parsed.toString());
     return parsed.map<Memo>((json) => Memo.fromJson(json)).toList();
   } else {
-    throw Exception('Failed to get Data');
+    throw Exception('Errore inserimento dati!');
   }
 }
 

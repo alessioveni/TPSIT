@@ -72,7 +72,7 @@ app.post('/api/memo/new', function(req, res) {
         console.log(e)
         res.send(e);
     } finally {
-        res.send('Inserted Successfully');
+        res.send('Inserimento eseguito correttamente');
         console.log("DONE")
     }
 });
