@@ -69,89 +69,11 @@ Generated_plugin_registrant.dart (generato automaticamente)
   Future<void> deleteAllMemo();
 ```
 
-- receive() dove l'app controlla se ci sono errori nei messaggi e "pulisce" la stringa
-```dart
-  void receive(data) {
-    print("Received!");
-    String istruzioni =
-        new String.fromCharCodes(data).trim();
-    int istruzioniCode = int.parse(istruzioni[0]);
-    String istruzioniData = istruzioni.substring(1);
-    connected = true;
-    switch (istruzioniCode) {
-```
-Qua possiamo notare che nel caso "0" e "1" dello switch il messaggio viene diviso e creato e aggiunto quello che sarà 
-poi il messaggio visualizzato con due casistiche differenti
-```dart
-      case 0:
-        {
-          var listMessage = istruzioniData.split("|");
-          listMessage.forEach((message) {
-            var mex = message.split("%/");
-            if (mex.length > 2) {
-              mexs.add(
-                  new Message(mex[0], mex[1], DateTime.parse(mex[2]), mex[3]));
-            }
-          });
 
-          break;
-        }
-      case 1:
-        {
-          mexs.add(new Message("name", "", DateTime.now(), "mexs"));
-          break;
-        }
-    }
-    setState(() {});
-  }
-```
+### Database
 
 
-- Controlli aggiuntivi per verificare IP e User
-```dart
-  bool controlIpNull() {
-    return controllerIP.text != "";
-  }
-
-  bool controlIpReal() {
-    return controllerIP.text != "" && controllerIP.text.length >= 7 && controllerIP.text.contains(".");
-  }
-
-  bool controlUserNull() {
-    return controllerUser.text !=  "";
-  }
-```
-
-- cls() per cancellare la lista dei messaggi nella chat
-```dart
-  void cls() {
-    print("All Mex Deleted!");
-    setState(() {
-      mexs = [];
-    });
-  }
-```
-
-- sendMessage() per verificare se il messaggio è vuoto e per garantirne la spedizione
-```dart
-  void sendMessage() {
-    if (controllermexs.text != null && controllermexs.text != "") 
-      server.send("2" +
-          utente.nome +
-          "%/" +
-          utente.cognome +
-          "%/" +
-          DateTime.now().toString() +
-          "%/" +
-          controllermexs.text);
-    controllermexs.text = "";
-    setState(() {
-    });
-  }
-```
-### Main - Widget
-
-- TextField dove inserire l'IP del Server per connettersi
+- file dal quale si creerà il database
 ```dart
 Container(
     decoration: BoxDecoration(
