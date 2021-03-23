@@ -3,7 +3,6 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class MemoDAO {
-  //definisce tutti i metodi applicabili all'entità memo (importante)
 
   @insert
   Future<void> newMemo(Memo memo);
@@ -22,6 +21,4 @@ abstract class MemoDAO {
 
   @Query('DELETE FROM Memo')
   Future<void> deleteAllMemo();
-
-  
 }

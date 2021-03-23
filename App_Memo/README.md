@@ -39,8 +39,7 @@ Memo.dart
 - MAIN FILES
 ```dart
 Main.dart
-Alerts.dart
-Api.dart
+JsonApi.dart
 NewMemo.dart
 Generated_plugin_registrant.dart (generato automaticamente)
 ```
@@ -49,19 +48,25 @@ Generated_plugin_registrant.dart (generato automaticamente)
 ### Main
 
 
-- initState() dove vengono riportate tutti gli stati iniziali
+- definisce tutti i metodi applicabili all'entità memo
 ```dart
-  @override
-  void initState() {
-    utente = User("name", "");
-    server = new ServerSocket();
-    connected = false;
-    mexs = new List();
-    controllermexs = new TextEditingController();
-    controllerUser = new TextEditingController();
-    controllerIP = new TextEditingController();
-    super.initState();
-  }
+  @insert
+  Future<void> newMemo(Memo memo);
+
+  @delete
+  Future<void> deleteMemo(Memo memo);
+  
+  @Query('SELECT * from Memo')
+  Stream<List<Memo>> getAllMemo();
+
+  @update
+  Future<void> updateMemo(Memo memo);
+
+  @Query('SELECT * from Memo WHERE id=:id')
+  Stream<Memo> getMemoById(int id);
+
+  @Query('DELETE FROM Memo')
+  Future<void> deleteAllMemo();
 ```
 
 - receive() dove l'app controlla se ci sono errori nei messaggi e "pulisce" la stringa
