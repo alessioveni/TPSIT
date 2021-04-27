@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:prenotazioni/main.dart';
+import 'file:///C:/Users/aless/Desktop/Scuola/2020-2021/Tpsit/TPSIT/Prenotazione%20-%20Booking/prenotazioni/prove/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

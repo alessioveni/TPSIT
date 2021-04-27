@@ -1,0 +1,21 @@
+{
+    "ListaPrenotazione": [{
+            "numPrenotazione": 1,
+            "classe": "5IA",
+            "aula": 2,
+            "prenotato": false
+        },
+        {
+            "numPrenotazione": 2,
+            "classe": "4AB",
+            "aula": 4,
+            "prenotato": false
+        },
+        {
+            "numPrenotazione": 2,
+            "classe": "5IC",
+            "aula": 4,
+            "prenotato": false
+        }
+    ]
+}
