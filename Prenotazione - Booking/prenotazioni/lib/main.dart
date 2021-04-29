@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:get_it/get_it.dart';
+import 'package:prenotazioni/services/prens_service.dart';
 import 'package:prenotazioni/views/pren_list.dart';
 
+void setupLocator() {
+  GetIt.instance.registerLazySingleton(() => PrensService());
+  //GetIt.instance<PrensService>();
+}
 
 void main() {
+  setupLocator();
   runApp(MyApp());
 }
 

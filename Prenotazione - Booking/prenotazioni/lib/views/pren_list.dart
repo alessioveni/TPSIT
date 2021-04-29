@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:prenotazioni/models/api_response.dart';
 import 'package:prenotazioni/models/pren_for_listing.dart';
+import 'package:prenotazioni/services/prens_service.dart';
 import 'package:prenotazioni/views/pren_delete.dart';
 import 'package:prenotazioni/views/pren_modify.dart';
 
-class PrenList extends StatelessWidget {
+class PrenList extends StatefulWidget {
 
 /* test per nomi prenotazioni
   String prenID;
@@ -14,40 +17,40 @@ class PrenList extends StatelessWidget {
   DateTime lastEditTime;
 */
 
+  @override
+  _PrenListState createState() => _PrenListState();
+}
 
+class _PrenListState extends State<PrenList> {
+  //final service = PrensService();
+  PrensService get service => GetIt.I<PrensService>();
 
-  final prens = [
-    new PrenForLinsting(
-      prenID: "1",
-      classe: "5IA",
-      aula: "11",
-      prenotato: false,
-      createDateTime: DateTime.now(),
-      latestEditDateTime: DateTime.now(),
-    ),
-
-    new PrenForLinsting(
-      prenID: "2",
-      classe: "4IB",
-      aula: "7",
-      prenotato: false,
-      createDateTime: DateTime.now(),
-      latestEditDateTime: DateTime.now(),
-    ),
-
-    new PrenForLinsting(
-      prenID: "3",
-      classe: "5IC",
-      aula: "3",
-      prenotato: false,
-      createDateTime: DateTime.now(),
-      latestEditDateTime: DateTime.now(),
-    ),
-  ];
 
   String formatDateTime(DateTime dateTime) {
     return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
   }
+
+  APIResponse<List<PrenForLinsting>> _apiResponse;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    _fetchPrens();
+    super.initState();
+  }
+
+  _fetchPrens() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    _apiResponse = await service.getPrensList();
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,14 +62,24 @@ class PrenList extends StatelessWidget {
           },
           child: Icon(Icons.add),
         ),
-        body: ListView.separated(
+        body: Builder(
+          builder: (_) {
+            if (_isLoading) {
+              return CircularProgressIndicator();
+            }
+
+            if (_apiResponse.error) {
+              return Center(child: Text(_apiResponse.errorMessage));
+            }
+
+
+            return ListView.separated(
           separatorBuilder: (_, __) => Divider(height:1, color: Colors.green),
             itemBuilder: (_, index) {
               return Dismissible(
-                key: ValueKey(prens[index].prenID),
+                key: ValueKey(_apiResponse.data[index].prenID),
                 direction: DismissDirection.startToEnd,
                 onDismissed: (direction){
-
                 },
                 confirmDismiss: (direction) async{
                   final ris = await showDialog(context: context, builder: (_) => PrenDelete()
@@ -81,19 +94,21 @@ class PrenList extends StatelessWidget {
                 ),
                 child: ListTile(
                 title: Text(
-                  prens[index].classe,
+                  _apiResponse.data[index].classe,
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
-                subtitle: Text("Modificato l'ultima volta li ${formatDateTime(prens[index].latestEditDateTime)}"),
+                subtitle: Text("Modificato l'ultima volta li ${formatDateTime(_apiResponse.data[index].latestEditDateTime ?? _apiResponse.data[index].createDateTime )}"),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => PrenModify(prenID: prens[index].prenID)));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => PrenModify(prenID: _apiResponse.data[index].prenID)));
                 }
               ),
               );
               
             },
-            itemCount: prens.length,
-        )
+            itemCount: _apiResponse.data.length,
         );
+          }
+        )
+      );
   }
 }

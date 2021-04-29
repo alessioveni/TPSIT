@@ -8,12 +8,14 @@ class PrenDelete extends StatelessWidget {
       title: Text('Attenzione'),
       content: Text('Sei sicuro di voler cancellare la prenotazione?'),
       actions: <Widget>[
+        // ignore: deprecated_member_use
         FlatButton(
           child: Text('Si'),
           onPressed: (){
             Navigator.of(context).pop(true);
           }, 
         ),
+        // ignore: deprecated_member_use
         FlatButton(
           child: Text('No'),
           onPressed: (){
