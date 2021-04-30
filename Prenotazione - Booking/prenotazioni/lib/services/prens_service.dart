@@ -8,7 +8,7 @@ import 'dart:convert';
 
 class PrensService{
 
-  static const API = 'http://api.notes.programmingaddict.com';
+  static const API = 'http://site.com';
   static const headers = {'apiKey': '08d771e2-7c49-1789-0eaa-32aff09f1471'};
 
   Future<APIResponse<List<PrenForLinsting>>> getPrensList() {
