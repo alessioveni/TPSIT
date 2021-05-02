@@ -63,7 +63,7 @@ class PrensService{
         return APIResponse<bool>(data: true);
       }
       return APIResponse<bool>(error: true, errorMessage: 'errore');
-    });
-    //.catchError((_) => APIResponse<bool>(error: true, errorMessage: 'errore'));
+    })
+    .catchError((_) => APIResponse<bool>(error: true, errorMessage: 'errore'));
   }
 }

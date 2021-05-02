@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:get_it/get_it.dart';
+import 'package:prenotazioni/services/prens_service.dart';
+import 'package:prenotazioni/views/pren_list.dart';
 import 'LoginDemo.dart';
 
+void setupLocator() {
+  GetIt.instance.registerLazySingleton(() => PrensService());
+  //GetIt.instance<PrensService>();
+}
+
 void main() {
+  setupLocator();
   runApp(MyApp());
 }
 
@@ -52,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             ListTile(
               title: Row(
+                
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   ElevatedButton.icon(
@@ -62,7 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                     ),
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AreaDocenti()));
+                      //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AreaDocenti()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PrenList()));
                     },
                     icon: Icon(Icons.add, size: 18),
                     label: Text("AREA DOCENTI"),

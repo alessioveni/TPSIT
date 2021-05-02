@@ -1,21 +1,21 @@
 import 'package:flutter/foundation.dart';
 
 class PrenInsert {
-  String classe;
   String aula;
+  String classe;
   bool prenotato = false;
 
   PrenInsert({
 
-    @required this.classe,
     @required this.aula,
+    @required this.classe,
     this.prenotato = false
   });
 
   Map<String,dynamic> toJson() {
     return{
-      "classe": classe,
       "aula": aula,
+      "classe": classe,
       "prenotato": prenotato
     };
   }

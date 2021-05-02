@@ -1,28 +1,83 @@
 {
     "prens": [{
-            "id": "1",
-            "classe": "5IA",
+            "id": "0",
             "aula": "11",
+            "classe": "5IA",
             "prenotato": false,
-            "createDateTime": "2019-11-25T20:03:05.791472+00:00",
+            "createDateTime": "2021-2-12T20:03:05.791472+00:00",
+            "latestEditDateTime": null
+        },
+        {
+            "id": "1",
+            "aula": "7",
+            "classe": "4AB",
+            "prenotato": false,
+            "createDateTime": "2021-3-3T20:03:05.791472+00:00",
             "latestEditDateTime": null
         },
         {
             "id": "2",
-            "classe": "4AB",
-            "aula": "7",
+            "aula": "2",
+            "classe": "5IC",
             "prenotato": false,
-            "createDateTime": "2019-11-25T20:03:05.791472+00:00",
+            "createDateTime": "2021-5-1T20:03:05.791472+00:00",
             "latestEditDateTime": null
         },
         {
             "id": "3",
-            "classe": "5IC",
-            "aula": "2",
+            "aula": "4",
+            "classe": "1A",
             "prenotato": false,
-            "createDateTime": "2019-11-25T20:03:05.791472+00:00",
+            "createDateTime": "2021-5-1T20:03:05.791472+00:00",
+            "latestEditDateTime": null
+        },
+        {
+            "id": "4",
+            "aula": "22",
+            "classe": "3IA",
+            "prenotato": false,
+            "createDateTime": "2021-5-1T20:03:05.791472+00:00",
+            "latestEditDateTime": null
+        },
+        {
+            "id": "5",
+            "aula": "30",
+            "classe": "5AA",
+            "prenotato": false,
+            "createDateTime": "2021-5-1T20:03:05.791472+00:00",
+            "latestEditDateTime": null
+        },
+        {
+            "id": "6",
+            "aula": "16",
+            "classe": "4TA",
+            "prenotato": false,
+            "createDateTime": "2021-5-1T20:03:05.791472+00:00",
+            "latestEditDateTime": null
+        },
+        {
+            "id": "7",
+            "aula": "18",
+            "classe": "3AA",
+            "prenotato": false,
+            "createDateTime": "2021-5-1T20:03:05.791472+00:00",
+            "latestEditDateTime": null
+        },
+        {
+            "id": "8",
+            "aula": "23",
+            "classe": "4IB",
+            "prenotato": false,
+            "createDateTime": "2021-5-1T20:03:05.791472+00:00",
+            "latestEditDateTime": null
+        },
+        {
+            "id": "9",
+            "aula": "29",
+            "classe": "5IB",
+            "prenotato": false,
+            "createDateTime": "2021-5-1T20:03:05.791472+00:00",
             "latestEditDateTime": null
         }
     ]
-
 }
