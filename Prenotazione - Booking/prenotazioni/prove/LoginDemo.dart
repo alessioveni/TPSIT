@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prenotazioni/views/pren_list.dart';
 import '../lib/main.dart';
 import 'main.dart';
 
@@ -23,13 +24,15 @@ class LoginDemo extends StatefulWidget {
   var user = "";
 }
 
+TextEditingController _passController = TextEditingController();
+
 class _LoginDemoState extends State<LoginDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.red[200],
       appBar: AppBar(
-        title: Text("Pagina di login"),
+        title: Text("Pagina di login Admin"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -53,7 +56,7 @@ class _LoginDemoState extends State<LoginDemo> {
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'User',
-                    hintText: 'Enter valid user id'),
+                    hintText: 'Inserisci un UserName valido'),
               ),
             ),
             Padding(
@@ -66,28 +69,21 @@ class _LoginDemoState extends State<LoginDemo> {
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Password',
-                    hintText: 'Enter secure password'),
+                    hintText: 'Inserisci una password valida'),
+                    controller: _passController,
               ),
             ),
-            FlatButton(
-              onPressed: (){
-                //TODO FORGOT PASSWORD SCREEN GOES HERE
-              },
-              child: Text(
-                'Forgot Password',
-                style: TextStyle(color: Colors.grey[900], fontSize: 15),
-              ),
-            ),
+            SizedBox(height: 10),
             Container(
               height: 50,
               width: 250,
               decoration: BoxDecoration(
-                  color: Colors.grey[900], borderRadius: BorderRadius.circular(20)),
+                  color: Colors.orange[900], borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () {
                   var password = "";
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => AreaAdmin()));
+                      context, MaterialPageRoute(builder: (_) => (_passController.text == 'admin') ? PrenList() : AreaAdmin()));
                 },
                 child: Text(
                   'Login',
@@ -98,7 +94,8 @@ class _LoginDemoState extends State<LoginDemo> {
             SizedBox(
               height: 130,
             ),
-            Text('New User? Create Account')
+            Text('Problemi ad accedere?'),
+            Text('Contatta la direzione')
           ],
         ),
       ),
