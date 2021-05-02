@@ -1,11 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:prenotazioni/models/pren.dart';
+import 'package:prenotazioni/services/prens_service.dart';
 
-class PrenModify extends StatelessWidget {
+class PrenModify extends StatefulWidget {
 
-  final String prenID;
-  bool get isEditing => prenID != null;
+  final String id;
+  PrenModify({this.id});
 
-  PrenModify({this.prenID});
+  @override
+  _PrenModifyState createState() => _PrenModifyState();
+}
+
+class _PrenModifyState extends State<PrenModify> {
+  bool get isEditing => widget.id != null;
+
+  PrensService get prensService => GetIt.I<PrensService>();
+
+  String errorMessage;
+  Pren pren;
+
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _contentController = TextEditingController();
+
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _isLoading = true;
+    });
+    prensService.getPren(widget.id).then((response) {
+      setState(() {
+      _isLoading = false;
+    });
+
+      if(response.error) {
+        errorMessage = response.errorMessage ?? 'Errore';
+      }
+      pren = response.data;
+      _titleController.text = pren.classe;
+      _contentController.text = pren.aula;
+    });
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +52,18 @@ class PrenModify extends StatelessWidget {
       appBar: AppBar(title: Text(isEditing ? 'Modifica Prenotazione' : 'Richiedi Prenotazione')),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Column(
+
+        child: _isLoading ? Center(child: CircularProgressIndicator()) : Column(
         children: <Widget>[
           TextField(
+            controller: _titleController,
             decoration: InputDecoration(
               hintText: 'Classe'
             )
           ),
           Container(height: 8),
           TextField(
+            controller: _contentController,
             decoration: InputDecoration(
               hintText: 'Aula desiderata'
             )

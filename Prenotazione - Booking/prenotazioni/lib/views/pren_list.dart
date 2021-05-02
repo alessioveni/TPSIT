@@ -9,7 +9,7 @@ import 'package:prenotazioni/views/pren_modify.dart';
 class PrenList extends StatefulWidget {
 
 /* test per nomi prenotazioni
-  String prenID;
+  String id;
   String classe;
   String aula;
   bool prenotato;
@@ -65,7 +65,7 @@ class _PrenListState extends State<PrenList> {
         body: Builder(
           builder: (_) {
             if (_isLoading) {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
 
             if (_apiResponse.error) {
@@ -77,7 +77,7 @@ class _PrenListState extends State<PrenList> {
           separatorBuilder: (_, __) => Divider(height:1, color: Colors.green),
             itemBuilder: (_, index) {
               return Dismissible(
-                key: ValueKey(_apiResponse.data[index].prenID),
+                key: ValueKey(_apiResponse.data[index].id),
                 direction: DismissDirection.startToEnd,
                 onDismissed: (direction){
                 },
@@ -99,7 +99,7 @@ class _PrenListState extends State<PrenList> {
                 ),
                 subtitle: Text("Modificato l'ultima volta li ${formatDateTime(_apiResponse.data[index].latestEditDateTime ?? _apiResponse.data[index].createDateTime )}"),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => PrenModify(prenID: _apiResponse.data[index].prenID)));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => PrenModify(id: _apiResponse.data[index].id)));
                 }
               ),
               );

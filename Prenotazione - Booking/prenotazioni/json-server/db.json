@@ -1,0 +1,10 @@
+{
+    "login": {
+        "token": "abc123"
+    },
+    "users": [
+        { "id": 1, "name": "Fabio" },
+        { "id": 2, "name": "Lorenzo" },
+        { "id": 3, "name": "Silvia" }
+    ]
+}
