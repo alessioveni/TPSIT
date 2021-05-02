@@ -104,57 +104,114 @@ Future<APIResponse<bool>> createPren(PrenInsert item) {
 ```
 
 
-
 ### VIEWS
 
 
-- Metodo fetchDataList() prendendo spunto dall'app Maree
+- Pren_delete.dart - Interfaccia Alert visualizzata quando vogliamo cancellare una prenotazione
 ```dart
-Future<List<Memo>> fetchDataList() async { 
-  final response = await http.get('https://2524fb95ed5e.ngrok.io');
-  if (response.statusCode == 200) {
-    final parsed = json.decode(response.body);
-    print('body parsed ${parsed}');
-    print(parsed.toString());
-    return parsed.map<Memo>((json) => Memo.fromJson(json)).toList();
-  } else {
-    throw Exception('Errore inserimento dati!');
-  }
-}
+return AlertDialog(
+      title: Text('Attenzione'),
+      content: Text('Sei sicuro di voler cancellare la prenotazione?'),
+      actions: <Widget>[
+        // ignore: deprecated_member_use
+        FlatButton(
+          child: Text('Si'),
+          onPressed: (){
+            Navigator.of(context).pop(true);
+          }, 
+        ),
+        // ignore: deprecated_member_use
+        FlatButton(
+          child: Text('No'),
+          onPressed: (){
+            Navigator.of(context).pop(false);
+          }, 
+        ),
+      ],
+    );
 ```
 
-- Entità Memo JSON generata automaticamente da un sito 
+- Pren_list.dart - Scaffold dove visualizziamo tutte le prenotazioni
+
 ```dart
-@entity
-class Memo {  
-  @PrimaryKey(autoGenerate: true)
-  final int id;
-  String title;
-  String body;
-  String tag;
-  String status;
-  Memo({this.id, this.title, this.body, this.tag, this.status});
-
-  factory Memo.fromJson(Map<String, dynamic> json) {
-    return Memo(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      body: json['body'] as String,
-      tag: json['tag'] as String,
-      status: json['status'] as String,
-    );
+@override
+  void initState() {
+    _fetchPrens();
+    super.initState();
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['body'] = this.body;
-    data['tag'] = this.tag;
-    data['status'] = this.status;
-    return data;
+  _fetchPrens() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    _apiResponse = await service.getPrensList();
+
+    setState(() {
+      _isLoading = false;
+    });
   }
-}
+  ```
+
+```dart
+return Scaffold(
+        appBar: AppBar(title: Text('Lista Prenotazioni')),
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) => PrenModify())).then((_) {
+              _fetchPrens();
+            });
+          },
+          child: Icon(Icons.add),
+        ),
+        body: Builder(
+          builder: (_) {
+            if (_isLoading) {
+              return Center(child: CircularProgressIndicator());
+            }
+
+            if (_apiResponse.error) {
+              return Center(child: Text(_apiResponse.errorMessage));
+            }
+
+
+            return ListView.separated(
+          separatorBuilder: (_, __) => Divider(height:1, color: Colors.green),
+            itemBuilder: (_, index) {
+              return Dismissible(
+                key: ValueKey(_apiResponse.data[index].id),
+                direction: DismissDirection.startToEnd,
+                onDismissed: (direction){
+                },
+                confirmDismiss: (direction) async{
+                  final ris = await showDialog(context: context, builder: (_) => PrenDelete()
+                  );
+                  print(ris);
+                  return ris;
+                },
+                background: Container(
+                  color: Colors.red,
+                  padding: EdgeInsets.only(left: 16),
+                  child: Align(child: Icon(Icons.delete, color: Colors.white), alignment: Alignment.centerLeft)
+                ),
+                child: ListTile(
+                title: Text(
+                  _apiResponse.data[index].classe,
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+                subtitle: Text("Modificato l'ultima volta li ${formatDateTime(_apiResponse.data[index].latestEditDateTime ?? _apiResponse.data[index].createDateTime )}"),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => PrenModify(id: _apiResponse.data[index].id)));
+                }
+              ),
+              );
+              
+            },
+            itemCount: _apiResponse.data.length,
+        );
+          }
+        )
+      );
 ```
 
 
