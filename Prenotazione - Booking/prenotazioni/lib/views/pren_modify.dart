@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:prenotazioni/models/pren.dart';
+import 'package:prenotazioni/models/pren_insert.dart';
 import 'package:prenotazioni/services/prens_service.dart';
 
 class PrenModify extends StatefulWidget {
@@ -20,15 +21,16 @@ class _PrenModifyState extends State<PrenModify> {
   String errorMessage;
   Pren pren;
 
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _contentController = TextEditingController();
+  TextEditingController _classeController = TextEditingController();
+  TextEditingController _aulaController = TextEditingController();
 
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    setState(() {
+    if(isEditing){
+      setState(() {
       _isLoading = true;
     });
     prensService.getPren(widget.id).then((response) {
@@ -40,9 +42,10 @@ class _PrenModifyState extends State<PrenModify> {
         errorMessage = response.errorMessage ?? 'Errore';
       }
       pren = response.data;
-      _titleController.text = pren.classe;
-      _contentController.text = pren.aula;
+      _classeController.text = pren.classe;
+      _aulaController.text = pren.aula;
     });
+    }
     
   }
 
@@ -56,14 +59,14 @@ class _PrenModifyState extends State<PrenModify> {
         child: _isLoading ? Center(child: CircularProgressIndicator()) : Column(
         children: <Widget>[
           TextField(
-            controller: _titleController,
+            controller: _classeController,
             decoration: InputDecoration(
               hintText: 'Classe'
             )
           ),
           Container(height: 8),
           TextField(
-            controller: _contentController,
+            controller: _aulaController,
             decoration: InputDecoration(
               hintText: 'Aula desiderata'
             )
@@ -76,13 +79,43 @@ class _PrenModifyState extends State<PrenModify> {
             child: RaisedButton(
             child: Text('Submit', style: TextStyle(color: Colors.white),),
             color: Theme.of(context).primaryColor,
-            onPressed: () {
+            onPressed: () async {
               if(isEditing) {
                 //fai upload del promemoria in api
               } else{
                 //crea promemoria in api
+                setState(() {
+                  _isLoading = true;
+                });
+                final pren = PrenInsert(classe: _classeController.text, aula: _aulaController.text);
+                final result = await prensService.createPren(pren);
+
+                setState(() {
+                  _isLoading = false;
+                });
+
+                final title = 'Errore';
+                final text = result.error ? (result.errorMessage ?? 'Errore!') : 'Prenotazione creata ';
+
+                showDialog(context: context, 
+                builder: (_) => AlertDialog(
+                  title: Text(title),
+                  content: Text(text),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Ok'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ]
+                )).then((data) {
+                  if(result.data) {
+                    Navigator.of(context).pop();
+                  }
+                });
               }
-              Navigator.of(context).pop();
+              
             },
             ),
           ),  

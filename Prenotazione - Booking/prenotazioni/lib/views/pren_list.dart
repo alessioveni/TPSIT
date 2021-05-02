@@ -58,7 +58,9 @@ class _PrenListState extends State<PrenList> {
         appBar: AppBar(title: Text('Lista Prenotazioni')),
         floatingActionButton: FloatingActionButton(
           onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) => PrenModify()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) => PrenModify())).then((_) {
+              _fetchPrens();
+            });
           },
           child: Icon(Icons.add),
         ),
